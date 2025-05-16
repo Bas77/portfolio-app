@@ -1,39 +1,26 @@
 @import "tailwindcss";
-
 :root {
   --background: #000000;
-  --foreground: #ededed;
+  --foreground: #ffffff;
+  --surface: #333333;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ededed;
-  }
-}
-
-@theme {
-  --color-surface: #333333;
-  --color-black: #000000;
-  --color-bermuda: #78dcca;
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
-  caret-color: transparent
-  /* padding-top: 5rem; */
-}::selection{
-  background: #000000;
-  color: white;
+  position: relative;
+  padding-top: 0;
 }
 
 /* Snap Scrolling */
@@ -45,12 +32,15 @@ body {
 }
 
 .snap-section {
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height */
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* padding-top: 4rem; */
+  padding-bottom: 2rem; /* Added padding bottom */
 }
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -74,8 +64,36 @@ a,
 button,
 input,
 textarea,
-link
 [role="button"] {
-  cursor: pointer; /* Restore cursor for interactive elements */
-  position: relative; /* Ensure proper stacking context */
+  cursor: pointer;
+  position: relative;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Fix for settings button */
+.settings-button-right {
+  position: fixed !important;
+  right: 1rem !important;
+  left: auto !important;
+  top: 1rem !important;
+}
+
+/* Override any transform that might be affecting the button */
+.settings-button-right {
+  transform: none !important;
 }
