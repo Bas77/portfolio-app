@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail, Twitter, MessageSquareMore } from "lucide-react"
+import { Github, Linkedin } from "lucide-react"
 import { TechCard } from "./component/tech-card"
 import Image from "next/image"
 import { JSX, SVGProps } from "react"
@@ -29,8 +29,8 @@ export default function Home() {
             </div>
 
             <div className="md:mt-4 cursor-default select-none">
-              <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition">Dominikus Sebastian Ramli</h1>
-              <h2 className="text-xl text-gray-400 mb-4">Aspiring Software Developer & Data Analyst</h2>
+              <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition text-center sm:text-left">Dominikus Sebastian Ramli</h1>
+              <h2 className="text-xl text-gray-400 mb-4 text-center sm:text-left">Aspiring Software Developer & Data Analyst</h2>
 
               <p className="text-gray-300 max-w-lg mb-6">
                 Undergraduate Computer Science student passionate about learning, problem-solving, and web development.
@@ -149,14 +149,14 @@ export default function Home() {
               description="A preprocessor scripting language that extends CSS with variables, nesting, and more."
               experience="4+ years"
             />
-
-            <TechCard
+            {/* lol */}
+            {/* <TechCard
               name="V0"
               icon="/skills/v0.png"
               color="0, 0, 0"
               description="A preprocessor scripting language that extends CSS with variables, nesting, and more."
               experience="4+ years"
-            />
+            /> */}
           </div>
         </div>
       </section>
