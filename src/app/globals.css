@@ -21,9 +21,12 @@ body {
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
   position: relative;
   padding-top: 0;
+}::selection {
+  background: #000000;;
+  color: #ffffff;
 }
 
-/* Snap Scrolling */
+/* Snap Scrolling */  
 .snap-container {
   height: 100vh;
   overflow-y: scroll;

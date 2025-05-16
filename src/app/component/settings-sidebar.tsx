@@ -95,13 +95,6 @@ export function SettingsSidebar() {
               </p>
             </div>
 
-            <div className="border-t border-zinc-800 pt-6">
-              <h3 className="text-lg font-medium text-gray-200 mb-4">About</h3>
-              <p className="text-sm text-gray-400">
-                Portfolio website for Dominikus Sebastian Ramli, showcasing skills and projects as a Software Developer.
-              </p>
-              <p className="text-sm text-gray-400 mt-2">© 2023 Dominikus Sebastian Ramli. All rights reserved.</p>
-            </div>
           </div>
         </div>
       </div>

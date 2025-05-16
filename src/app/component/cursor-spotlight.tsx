@@ -1,21 +1,30 @@
 "use client"
 
+import { useSettings } from "../context/settings-context"
 import { useCursorSpotlight } from "../hooks/use-cursor-spotlight"
 import { useEffect, useState } from "react"
 
 export default function CursorSpotlight() {
   const { position, isActive } = useCursorSpotlight()
+  const { isSpotlightEnabled } = useSettings()
+  const [mounted, setMounted] = useState(false)
   const [opacity, setOpacity] = useState(0)
 
+  // Only run on client-side to prevent hydration mismatch
   useEffect(() => {
+    setMounted(true)
+
     // Fade in the effect after component mounts
-    if (isActive) {
+    if (isActive && isSpotlightEnabled) {
       const timer = setTimeout(() => setOpacity(1), 500)
       return () => clearTimeout(timer)
+    } else {
+      setOpacity(0)
     }
-  }, [isActive])
+  }, [isActive, isSpotlightEnabled])
 
-  if (!isActive) return null
+  // Don't render anything on server or before mounting
+  if (!mounted || !isActive || !isSpotlightEnabled) return null
 
   return (
     <div
