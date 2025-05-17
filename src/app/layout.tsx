@@ -34,13 +34,13 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="overflow-x-hidden">
         <SettingsProvider>
-          {/* <CursorSpotlight /> */}
+          <CursorSpotlight />
           <PreloadModels />
           <Navbar />
-          {/* <div id="settings-button-container" className="fixed top-4 right-4 z-50"> */}
-            {/* <SettingsButton /> */}
-          {/* </div> */}
-          {/* <SettingsSidebar /> */}
+          <div id="settings-button-container" className="fixed top-4 right-4 z-50">
+            <SettingsButton />
+          </div>
+          <SettingsSidebar />
           {children}
         </SettingsProvider>
       </body>
