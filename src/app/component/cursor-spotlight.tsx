@@ -28,7 +28,7 @@ export default function CursorSpotlight() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300 overflow-hidden"
       style={{ opacity }}
       aria-hidden="true"
     >
@@ -37,6 +37,7 @@ export default function CursorSpotlight() {
         style={{
           background: `radial-gradient(800px circle at ${position.x}px ${position.y}px, rgba(59, 130, 246, 0.15), rgba(29, 78, 216, 0.05) 40%, transparent 80%)`,
           transition: "background 0.15s ease",
+          maxWidth: '100vw',
         }}
       />
     </div>

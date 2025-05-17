@@ -8,6 +8,7 @@ import { SettingsButton } from "./component/settings-button"
 import CursorSpotlight from "./component/cursor-spotlight"
 import { SettingsSidebar } from "./component/settings-sidebar"
 import PreloadModels from "./component/preloadModels"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,6 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
+// useGLTF.preload('/models/global-model.glb')
 // export const metadata: Metadata = {
 //   title: "Dominikus Sebastian Ramli | Software Developer",
 //   description: "Personal portfolio of Dominikus Sebastian Ramli, Software Developer",
@@ -32,13 +34,13 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="overflow-x-hidden">
         <SettingsProvider>
-          <CursorSpotlight />
+          {/* <CursorSpotlight /> */}
           <PreloadModels />
           <Navbar />
-          <div id="settings-button-container" className="fixed top-4 right-4 z-50">
-            <SettingsButton />
-          </div>
-          <SettingsSidebar />
+          {/* <div id="settings-button-container" className="fixed top-4 right-4 z-50"> */}
+            {/* <SettingsButton /> */}
+          {/* </div> */}
+          {/* <SettingsSidebar /> */}
           {children}
         </SettingsProvider>
       </body>

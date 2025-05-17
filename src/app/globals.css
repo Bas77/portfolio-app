@@ -13,25 +13,33 @@ body {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  max-width: 100vw;
 }
-
+* {
+  /* outline: 1px solid red; */
+  /* overflow-x: hidden; */
+}
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
   position: relative;
   padding-top: 0;
-}::selection {
-  background: #000000;;
+  overflow-x: hidden;
+}
+*::selection {
+  background: yellow;
   color: #ffffff;
 }
 
 /* Snap Scrolling */  
 .snap-container {
   height: 100vh;
+  width: 100vw;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 .snap-section {
@@ -44,22 +52,47 @@ body {
   padding-bottom: 2rem; /* Added padding bottom */
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+@media (min-width: 640px) {
+  /* Custom scrollbar only on screens >= 640px */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #111111;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #111111;
-}
+@media (max-width: 640px) {
+  /* Custom scrollbar only on screens >= 640px */
+  ::-webkit-scrollbar {
+    background: transparent;
+    display: none;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #333333;
-  border-radius: 4px;
-}
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    display: none;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+    display: none;
+  }
 }
 
 /* Fix for clickable elements */
