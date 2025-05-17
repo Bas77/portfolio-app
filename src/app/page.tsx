@@ -19,14 +19,14 @@ export default function Home() {
 
             <div className="md:mt-4 cursor-default select-none">
               <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition text-center sm:text-left">Dominikus Sebastian Ramli</h1>
-              <h2 className="text-xl text-gray-400 mb-4 text-center sm:text-left">Aspiring Software Developer & Data Analyst</h2>
+              <h2 className="text-x sm:text-xl text-gray-400 mb-4 text-center sm:text-left">Aspiring Software Developer & Data Analyst</h2>
 
-              <p className="text-gray-300 max-w-lg mb-6">
+              <p className="text-gray-300 max-w-lg mb-6 text-center sm:text-left">
                 Undergraduate Computer Science student passionate about learning, problem-solving, and web development.
                  Specializing in modern web technologies and frameworks.
               </p>
 
-              <div className="flex gap-6">
+              <div className="flex gap-6 justify-center sm:justify-start">
                 <Link
                   href="https://github.com/Bas77"
                   className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
@@ -81,7 +81,7 @@ export default function Home() {
             <span className="absolute bottom-[-8px] left-0 w-full h-1 bg-blue-500"></span>
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <TechCard
               name="Python"
               icon="https://api.iconify.design/vscode-icons:file-type-python.svg"
