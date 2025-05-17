@@ -9,8 +9,7 @@ import { SettingsButton } from "./component/settings-button"
 import CursorSpotlight from "./component/cursor-spotlight"
 import { SettingsSidebar } from "./component/settings-sidebar"
 import PreloadModels from "./component/preloadModels"
-import SmoothScroll from "./component/smooth-scroll"
-import { ReactLenis, useLenis } from 'lenis/react'
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,25 +31,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const lenis = useLenis(({ scroll }) => {
-
-    } )
   return (
     
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="overflow-x-hidden">
         <SettingsProvider>
-          {/* <ReactLenis root> */}
           <CursorSpotlight />
           <PreloadModels />
-          {/* <SmoothScroll /> */}
           <Navbar />
           <div id="settings-button-container" className="fixed top-4 right-4 z-50">
             <SettingsButton />
           </div>
           <SettingsSidebar />
           {children}
-          {/* </ReactLenis> */}
         </SettingsProvider>
       </body>
     </html>
