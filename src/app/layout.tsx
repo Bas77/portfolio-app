@@ -7,7 +7,7 @@ import { SettingsProvider } from "./context/settings-context"
 import { SettingsButton } from "./component/settings-button"
 import CursorSpotlight from "./component/cursor-spotlight"
 import { SettingsSidebar } from "./component/settings-sidebar"
-
+import PreloadModels from "./component/preloadModels"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,6 +33,7 @@ export default function RootLayout({
       <body className="overflow-x-hidden">
         <SettingsProvider>
           <CursorSpotlight />
+          <PreloadModels />
           <Navbar />
           <div id="settings-button-container" className="fixed top-4 right-4 z-50">
             <SettingsButton />

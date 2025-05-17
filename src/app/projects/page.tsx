@@ -14,7 +14,7 @@ export default function MiyuPage() {
       <Head>
         <title>Miyu 3D Model</title>
       </Head>
-      <div className="h-screen w-screen bg-gray-900">
+      <div className="h-screen w-screen cursor-grab">
         <Canvas camera={{ position: [0, 1, 1], fov: 60 }}>
           <ambientLight />
           <directionalLight position={[5, 5, 5]} intensity={1} />
