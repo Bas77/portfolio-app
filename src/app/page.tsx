@@ -1,11 +1,50 @@
+'use client'
 import Link from "next/link"
 import { Github, Linkedin } from "lucide-react"
 import { TechCard } from "./component/tech-card"
 import Image from "next/image"
 import { Whatsapp } from "./component/icons/whatsapp"
+import { useEffect } from "react"
+
 
     
+    
 export default function Home() {
+  useEffect(() => {
+    // Import Lenis dynamically to avoid SSR issues
+    const initLenis = async () => {
+      const Lenis = (await import("lenis")).default
+      const Snap = (await import("lenis/snap")).default
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        wheelMultiplier: 50,
+        touchMultiplier: 50
+      })
+
+      function raf(time: number) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
+
+      requestAnimationFrame(raf)
+
+      const snap = new Snap(lenis, {
+        duration: 1,
+        // type: 'proximity', // This makes it snap based on scroll direction
+        // threshold: 0.3, // Adjust this value to control when the snap triggers
+        velocityThreshold: 1
+      })
+
+      const sectionHeight = window.innerHeight
+      snap.add(0)
+      snap.add(sectionHeight)
+    }
+
+    initLenis()
+  }, [])
+
   return (
     <div className="snap-container">
       {/* Hero Section */}
