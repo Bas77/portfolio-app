@@ -17,9 +17,9 @@ export default function MiyuPage() {
       <div className="h-screen w-screen cursor-grab">
         <Canvas camera={{ position: [0, 1, 1], fov: 60 }}>
           <ambientLight />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <directionalLight position={[0, 0, 0]} intensity={1} />
           <MiyuModel />
-          <OrbitControls />
+          <OrbitControls target={[0, 0.70, 0]}/>
         </Canvas>
       </div>
     </>
