@@ -18,7 +18,7 @@ export default function Home() {
             </div>
 
             <div className="md:mt-4 cursor-default select-none">
-              <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition text-center sm:text-left">Dominikus Sebastian Ramli</h1>
+              <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition text-center sm:text-left">Catherine!!!!</h1>
               <h2 className="text-x sm:text-xl text-gray-400 mb-4 text-center sm:text-left">Aspiring Software Developer & Data Analyst</h2>
 
               <p className="text-gray-300 max-w-lg mb-6 text-center sm:text-left">
@@ -28,21 +28,21 @@ export default function Home() {
 
               <div className="flex gap-6 justify-center sm:justify-start">
                 <Link
-                  href="https://github.com/Bas77"
+                  href="https://github.com/"
                   className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                 >
                   <Github size={24} className="text-gray-400 hover:text-white" />
                 </Link>
 
                 <Link
-                  href="https://www.linkedin.com/in/dominikus-sebastian-ramli-95a3952b8/"
+                  href="https://www.linkedin.com/in//"
                   className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                 >
                   <Linkedin size={24} className="text-gray-400 hover:text-white" />
                 </Link>
 
                 <Link
-                  href="https://wa.me/6282110855768?text=Hey%2C%20I%27ve%20checked%20out%20your%20website%21"
+                  href="https://wa.me/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
