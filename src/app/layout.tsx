@@ -18,10 +18,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export const metadata: Metadata = {
-  title: "Dominikus Sebastian Ramli | Software Developer",
-  description: "Personal portfolio of Dominikus Sebastian Ramli, Software Developer",
-}
+// export const metadata: Metadata = {
+//   title: "Dominikus Sebastian Ramli | Software Developer",
+//   description: "Personal portfolio of Dominikus Sebastian Ramli, Software Developer",
+// }
 
 export default function RootLayout({
   children,
