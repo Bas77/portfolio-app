@@ -87,56 +87,48 @@ export default function Home() {
               icon="https://api.iconify.design/vscode-icons:file-type-python.svg"
               color="59, 130, 246"
               description="A versatile programming language used for web development, data analysis, AI, and automation."
-              experience="4+ years"
             />
             <TechCard
               name="CSS"
               icon="https://api.iconify.design/vscode-icons:file-type-css2.svg"
               color="14, 165, 233"
               description="Cascading Style Sheets for designing and styling web applications with precision."
-              experience="5+ years"
             />
             <TechCard
               name="React"
               icon="https://api.iconify.design/vscode-icons:file-type-reactjs.svg"
               color="20, 184, 166"
               description="A JavaScript library for building user interfaces with reusable components."
-              experience="3+ years"
             />
             <TechCard
               name="Tailwind CSS"
               icon="https://api.iconify.design/vscode-icons:file-type-tailwind.svg"
               color="6, 182, 212"
               description="A utility-first CSS framework for rapidly building custom user interfaces."
-              experience="2+ years"
             />
             <TechCard
-              name="JavaScript"
-              icon="https://api.iconify.design/vscode-icons:file-type-js-official.svg"
+              name="Power BI"
+              icon="https://api.iconify.design/logos:microsoft-power-bi.svg"
               color="234, 179, 8"
-              description="The programming language of the web, enabling interactive and dynamic content."
-              experience="5+ years"
+              description="A business analytics tool to visualize data with interactive dashboards and reports."
             />
             <TechCard
               name="HTML"
               icon="https://api.iconify.design/vscode-icons:file-type-html.svg"
               color="239, 68, 68"
               description="The standard markup language for creating web pages and applications."
-              experience="6+ years"
             />
             <TechCard
               name="TypeScript"
               icon="https://api.iconify.design/vscode-icons:file-type-typescript-official.svg"
               color="59, 130, 246"
               description="A strongly typed programming language that builds on JavaScript for safer code."
-              experience="3+ years"
             />
             <TechCard
-              name="Sass CSS"
-              icon="https://api.iconify.design/vscode-icons:file-type-scss.svg"
-              color="236, 72, 153"
-              description="A preprocessor scripting language that extends CSS with variables, nesting, and more."
-              experience="4+ years"
+              name="Supabase"
+              icon="https://api.iconify.design/material-icon-theme:supabase.svg"
+              color="16, 185, 129"
+              description="An open-source Firebase alternative that offers a full Postgres backend, RESTful APIs, and more"
             />
             {/* lol */}
             {/* <TechCard

@@ -24,7 +24,7 @@ export function TechCard({ name, icon, color, description, experience }: TechCar
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="w-8 h-8 flex items-center justify-center text-2xl" style={{ color: `rgb(${color})` }}>
-        <Image src={icon} alt='' width={500} height={500}/>
+        <Image src={icon} alt='' width={500} height={500} className="w-full h-full object-contain"/>
       </div>
       <span className="text-white font-medium">{name}</span>
 
