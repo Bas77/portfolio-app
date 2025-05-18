@@ -190,6 +190,7 @@
                 <div className="flex gap-6 justify-center sm:justify-start transition-colors">
                   <Link
                     href="https://github.com/Bas77"
+                    data-testid="github-link"
                     className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                   >
                     <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-spin pointer-events-none transition-opacity" />
@@ -198,6 +199,7 @@
 
                   <Link
                     href="https://www.linkedin.com/in/dominikus-sebastian-ramli-95a3952b8/"
+                    data-testid="linkedin-link"
                     className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                   >
                     <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-pulse pointer-events-none transition" />
@@ -207,6 +209,7 @@
                   <Link
                     href="https://wa.me/6282110855768?text=Hey%2C%20I%27ve%20checked%20out%20your%20website%21"
                     target="_blank"
+                    data-testid="whatsapp-link"
                     rel="noopener noreferrer"
                     className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                   >

@@ -46,6 +46,7 @@ export function SettingsSidebar() {
         className={`fixed top-0 right-0 h-full w-80 bg-[#121212] shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        data-testid='settings-sidebar'
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">

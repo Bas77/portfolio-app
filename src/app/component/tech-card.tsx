@@ -16,6 +16,7 @@ export function TechCard({ name, icon, color, description, experience }: TechCar
   return (
     <div
       className="bg-[#121212] rounded-xl p-4 flex items-center gap-4 transition-all duration-300 relative group"
+      data-testid='tech-card'
       style={{
         boxShadow: isHovered ? `0 0 20px 0 rgba(${color}, 0.3)` : "none",
         transform: isHovered ? "translateY(-2px)" : "translateY(0)",
@@ -29,7 +30,7 @@ export function TechCard({ name, icon, color, description, experience }: TechCar
       <span className="text-white font-medium">{name}</span>
 
       {/* Dark Gray Stylized Tooltip */}
-      <div className="absolute opacity-0 group-hover:opacity-100 bottom-full left-1/2 transform -translate-x-1/2 mb-2 transition-all duration-300 pointer-events-none z-50">
+      <div className="absolute opacity-0 group-hover:opacity-100 bottom-full left-1/2 transform -translate-x-1/2 mb-2 transition-all duration-300 pointer-events-none z-50" data-testid='tech-tooltip'>
         <div
           className="relative px-4 py-3 rounded-lg max-w-xs w-64 text-sm text-white shadow-xl"
           style={{

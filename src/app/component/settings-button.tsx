@@ -16,6 +16,7 @@ export function SettingsButton() {
         right: "1rem",
         left: "auto",
       }}
+      data-testid='settings-button'
       aria-label="Settings"
     >
       <Settings size={20} />
