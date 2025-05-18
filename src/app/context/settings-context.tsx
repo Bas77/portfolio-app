@@ -3,27 +3,26 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
 
-type Theme = "dark" | "light"
-
 type SettingsContextType = {
   isSpotlightEnabled: boolean
   toggleSpotlight: () => void
   isSidebarOpen: boolean
   toggleSidebar: () => void
-  theme: Theme
-  toggleTheme: () => void
+  isLenisEnabled: boolean
+  toggleLenis: () => void
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined)
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(true)
+  const [isLenisEnabled, setIsLenisEnabled] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [theme, setTheme] = useState<Theme>("dark")
   const [mounted, setMounted] = useState(false)
 
   const toggleSpotlight = () => {
     setIsSpotlightEnabled((prev) => !prev)
+    console.log("Spotlight: ", isSpotlightEnabled )
     // Save preference to localStorage only on client
     if (typeof window !== "undefined") {
       localStorage.setItem("spotlightEnabled", (!isSpotlightEnabled).toString())
@@ -34,55 +33,31 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setIsSidebarOpen((prev) => !prev)
   }
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark"
-    setTheme(newTheme)
-
-    // Save theme preference to localStorage
+  const toggleLenis = () => {
+    setIsLenisEnabled((prev) => !prev)
+    console.log("Lenis:", isLenisEnabled )
+    // Save preference to localStorage only on client
     if (typeof window !== "undefined") {
-      localStorage.setItem("theme", newTheme)
-
-      // Apply theme to document
-      if (newTheme === "dark") {
-        document.documentElement.classList.add("dark")
-      } else {
-        document.documentElement.classList.remove("dark")
-      }
+      localStorage.setItem("lenisEnabled", (!isLenisEnabled).toString())
     }
   }
+
 
   // Load saved preferences on mount - client-side only
   useEffect(() => {
     setMounted(true)
 
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined") {  
       // Load spotlight preference
       const savedSpotlight = localStorage.getItem("spotlightEnabled")
       if (savedSpotlight !== null) {
         setIsSpotlightEnabled(savedSpotlight === "true")
       }
 
-      // Load theme preference
-      const savedTheme = localStorage.getItem("theme") as Theme | null
-      if (savedTheme) {
-        setTheme(savedTheme)
-
-        // Apply theme to document
-        if (savedTheme === "dark") {
-          document.documentElement.classList.add("dark")
-        } else {
-          document.documentElement.classList.remove("dark")
-        }
-      } else {
-        // Check system preference if no saved preference
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-        setTheme(prefersDark ? "dark" : "light")
-
-        if (prefersDark) {
-          document.documentElement.classList.add("dark")
-        } else {
-          document.documentElement.classList.remove("dark")
-        }
+      // Load lenis preference
+      const savedLenis = localStorage.getItem('lenisEnabled')
+      if (savedSpotlight !== null) {
+        setIsLenisEnabled(savedLenis === "true")
       }
     }
   }, [])
@@ -93,8 +68,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     toggleSpotlight,
     isSidebarOpen: mounted ? isSidebarOpen : false,
     toggleSidebar,
-    theme: mounted ? theme : "dark",
-    toggleTheme,
+    isLenisEnabled: mounted ? isLenisEnabled : false,
+    toggleLenis,
   }
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>

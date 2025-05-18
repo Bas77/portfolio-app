@@ -2,7 +2,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Github, ExternalLink, Smartphone, Globe } from 'lucide-react'
-import { Key, useEffect } from "react"
+import { Key, useEffect, useRef } from "react"
+import { useSettings } from "../context/settings-context"
+import { motion } from "framer-motion"
 
 // Project data
 interface Project{
@@ -41,7 +43,7 @@ const projects = [
     name: "Personal Portfolio",
     description: "My personal portfolio website showcasing projects and skills, built with Next.js and Three.js.",
     image: "/projects/Portfolio/Portfolio.png",
-    tags: ["Next.js", "Three.js", "Tailwind CSS"],
+    tags: ["Next.js", "Tailwind CSS"],
     github: "https://github.com/Bas77/portfolio",
     liveUrl: "#",
     type: "web"
@@ -49,34 +51,74 @@ const projects = [
 ]
 
 export default function ProjectsPage() {
+  const {isLenisEnabled} = useSettings()
+  const lenisRef = useRef<any>(null)
+  const animationFrameRef = useRef<number | null>(null)
+
   useEffect(() => {
-      // Import Lenis dynamically to avoid SSR issues
-      const initLenis = async () => {
-        const Lenis = (await import("lenis")).default
-        const wrapper = document.getElementById('lenis-wrapper')
-        const content = document.getElementById('lenis-content')
-  
+    let raf: (time: number) => void;
+
+    const initLenis = async () => {
+      const Lenis = (await import("lenis")).default;
+
+      const wrapper = document.getElementById("lenis-wrapper");
+      const content = document.getElementById("lenis-content");
+
+      // We probably don't need this
       if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
-        console.warn('Lenis wrapper or content not found.')
-        return
+        console.warn("Lenis wrapper or content not found.");
+        return;
       }
-        const lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          wrapper: wrapper as HTMLElement,
-          content: content as HTMLElement,
-        })
-  
-        function raf(time: number) {
-          lenis.raf(time)
-          requestAnimationFrame(raf)
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        wrapper,
+        content,
+      });
+
+      lenisRef.current = lenis;
+
+      // RAF with conditional enable check
+      raf = (time: number) => {
+        if (isLenisEnabled && lenisRef.current) {
+          lenisRef.current.raf(time);
         }
-  
-        requestAnimationFrame(raf)
+        animationFrameRef.current = requestAnimationFrame(raf);
+      };
+      animationFrameRef.current = requestAnimationFrame(raf);
+
+
+      // Cleanup function
+      return () => {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+        lenis.destroy?.();
+      };
+    };
+
+    if (isLenisEnabled) {
+      const cleanupPromise = initLenis();
+      return () => {
+        cleanupPromise.then((cleanup) => {
+          if (typeof cleanup === "function") cleanup();
+        });
+      };
+    } else {
+      // Disable Lenis manually if already running
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
-  
-      initLenis()
-    }, [])
+      if (lenisRef.current?.destroy) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+    }
+  }, [isLenisEnabled]);
+
+    
   return (
     <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
     <div id='lenis-content' className="will-change-transform"></div>
@@ -93,6 +135,22 @@ export default function ProjectsPage() {
           ))}
         </div>
       </div>
+      <motion.footer
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mt-20 py-10 border-t border-zinc-800 text-center text-zinc-500 text-sm"
+      >
+        <p>You've reached the end</p>
+        <p className="mt-2">Scroll back up to explore more projects!</p>
+        {/* <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="mt-4 px-4 py-2 text-sm text-white bg-zinc-800 rounded hover:bg-zinc-700 transition"
+        >
+           Back to Top ↑
+        </button> */}
+      </motion.footer>
     </div>
     </div>
     

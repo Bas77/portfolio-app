@@ -33,24 +33,19 @@ body {
   /* height: 100vh; */
   width: 100vw;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
+  /* scroll-snap-type: y mandatory;
+  scroll-behavior: smooth; */
 }
 
 
 .snap-section {
   min-height: 100vh; /* Changed from height to min-height */
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* padding-top: 4rem; */
   padding-bottom: 2rem; /* Added padding bottom */
-}
-@media (max-width: 768px) {
-  .snap-container {
-    height: 100vh;
-  }
 }
 
 /* Custom scrollbar */
@@ -132,4 +127,13 @@ html.lenis body {
   transition-property: overflow;
   transition-duration: 1ms;
   transition-behavior: allow-discrete;
+}
+
+#lenis-wrapper {
+  height: 100vh;
+  overflow: auto;
+}
+
+#lenis-content {
+  /* min-height: 200%; or however long your content is */
 }

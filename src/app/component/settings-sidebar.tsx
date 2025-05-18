@@ -5,7 +5,7 @@ import { useSettings } from "../context/settings-context"
 import { useEffect } from "react"
 
 export function SettingsSidebar() {
-  const { isSidebarOpen, toggleSidebar, isSpotlightEnabled, toggleSpotlight } = useSettings()
+  const { isSidebarOpen, toggleSidebar, isSpotlightEnabled, toggleSpotlight, isLenisEnabled, toggleLenis } = useSettings()
 
   // Close sidebar on escape key
   useEffect(() => {
@@ -92,6 +92,43 @@ export function SettingsSidebar() {
 
               <p className="text-xs text-gray-500">
                 Enables a subtle glow effect that follows your cursor on the background.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="space-y-6 mt-10">
+            <div className="space-y-4">
+
+              <div className="flex items-center justify-between">
+                <label htmlFor="lenis-toggle" className="text-gray-300 cursor-pointer">
+                  Lenis Scrolling (Smooth)
+                </label>
+                <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full">
+                  <input
+                    type="checkbox"
+                    id="lenis-toggle"
+                    className="absolute w-0 h-0 opacity-0"
+                    checked={isLenisEnabled}
+                    onChange={toggleLenis}
+                  />
+                  <label
+                    htmlFor="lenis-toggle"
+                    className={`absolute inset-0 cursor-pointer rounded-full transition-colors duration-300 ${
+                      isLenisEnabled ? "bg-blue-600" : "bg-zinc-700"
+                    }`}
+                  >
+                    <span
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                        isLenisEnabled ? "transform translate-x-6" : ""
+                      }`}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-500">
+                Enables buttery-smooth scrolling for a more fluid and refined browsing experience.
               </p>
             </div>
 
