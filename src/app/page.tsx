@@ -1,12 +1,49 @@
+'use client'
 import Link from "next/link"
 import { Github, Linkedin } from "lucide-react"
 import { TechCard } from "./component/tech-card"
 import Image from "next/image"
 import { Whatsapp } from "./component/icons/whatsapp"
+import { useEffect } from "react"
 
     
 export default function Home() {
+  useEffect(() => {
+    // Import Lenis dynamically to avoid SSR issues
+    const initLenis = async () => {
+      const Lenis = (await import("lenis")).default
+      const Snap = (await import("lenis/snap")).default
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        wheelMultiplier: 50,
+        touchMultiplier: 50
+      })
+
+      function raf(time: number) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
+
+      requestAnimationFrame(raf)
+
+      const snap = new Snap(lenis, {
+        duration: 1,
+        // type: 'proximity', // This makes it snap based on scroll direction
+        // threshold: 0.3, // Adjust this value to control when the snap triggers
+        velocityThreshold: 1
+      })
+
+      const sectionHeight = window.innerHeight
+      snap.add(0)
+      snap.add(sectionHeight)
+    }
+
+    initLenis()
+  }, [])
   return (
+    
     <div className="snap-container">
       {/* Hero Section */}
       <section id="hero" className="snap-section relative z-10 px-4 sm:p  x-6 md:px-8 lg:px-16">
@@ -26,28 +63,31 @@ export default function Home() {
                  Specializing in modern web technologies and frameworks.
               </p>
 
-              <div className="flex gap-6 justify-center sm:justify-start">
+              <div className="flex gap-6 justify-center sm:justify-start transition-colors">
                 <Link
                   href="https://github.com/Bas77"
-                  className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
+                  className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                 >
-                  <Github size={24} className="text-gray-400 hover:text-white" />
+                   <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-spin pointer-events-none transition-opacity" />
+                  <Github size={24} className="text-gray-400 group-hover:text-white transition-colors" />
                 </Link>
 
                 <Link
                   href="https://www.linkedin.com/in/dominikus-sebastian-ramli-95a3952b8/"
-                  className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
+                  className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                 >
-                  <Linkedin size={24} className="text-gray-400 hover:text-white" />
+                  <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-pulse pointer-events-none transition" />
+                  <Linkedin size={24} className="text-gray-400 group-hover:text-white transition-colors" />
                 </Link>
 
                 <Link
                   href="https://wa.me/6282110855768?text=Hey%2C%20I%27ve%20checked%20out%20your%20website%21"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
+                  className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                 >
-                  <Whatsapp  className="text-gray-400 hover:text-white" />
+                  <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-pulse pointer-events-none transition" />
+                  <Whatsapp  className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
                 </Link>
               </div>
             </div>

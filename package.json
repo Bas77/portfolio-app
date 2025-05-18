@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.48",
     "@headlessui/react": "^2.2.3",
     "@heroicons/react": "^2.2.0",
     "@react-three/drei": "^10.0.7",
     "@react-three/fiber": "^9.1.2",
     "autoprefixer": "^10.4.21",
     "geist": "^1.4.2",
+    "lenis": "^1.3.3",
     "lucide-react": "^0.510.0",
     "next": "15.3.2",
     "react": "^19.0.0",
