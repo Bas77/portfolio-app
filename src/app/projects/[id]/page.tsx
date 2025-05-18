@@ -4,7 +4,7 @@ import { useParams, notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, Github, ExternalLink, Calendar, Code } from "lucide-react"
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from "react"
+import { Key } from "react"
 
 // Project data - in a real app, this would come from a database or API
 const projectsData = {
