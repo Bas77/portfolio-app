@@ -5,7 +5,7 @@ import { TechCard } from "./component/tech-card"
 import Image from "next/image"
 import { Whatsapp } from "./component/icons/whatsapp"
 import { useEffect } from "react"
-
+import { div } from "framer-motion/client"
     
 export default function Home() {
   useEffect(() => {
@@ -13,12 +13,21 @@ export default function Home() {
     const initLenis = async () => {
       const Lenis = (await import("lenis")).default
       const Snap = (await import("lenis/snap")).default
+      const wrapper = document.getElementById('lenis-wrapper')
+      const content = document.getElementById('lenis-content')
 
+    // ✅ Check they both exist before proceeding
+    if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
+      console.warn('Lenis wrapper or content not found.')
+      return
+    }
       const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         wheelMultiplier: 50,
-        touchMultiplier: 50
+        touchMultiplier: 50,
+        wrapper: wrapper as HTMLElement,
+        content: content as HTMLElement,
       })
 
       function raf(time: number) {
@@ -29,24 +38,23 @@ export default function Home() {
       requestAnimationFrame(raf)
 
       const snap = new Snap(lenis, {
-        duration: 1,
-        // type: 'proximity', // This makes it snap based on scroll direction
-        // threshold: 0.3, // Adjust this value to control when the snap triggers
         velocityThreshold: 1
       })
 
       const sectionHeight = window.innerHeight
       snap.add(0)
       snap.add(sectionHeight)
+      snap.add(sectionHeight * 2)
     }
 
     initLenis()
   }, [])
   return (
-    
-    <div className="snap-container">
+    <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
+    <div id='lenis-content' className="will-change-transform">
+      <div className="snap-container caret-transparent" >
       {/* Hero Section */}
-      <section id="hero" className="snap-section relative z-10 px-4 sm:p  x-6 md:px-8 lg:px-16">
+      <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16" >
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 ml-0 md:ml-20">
             <div className="w-48 h-48 rounded-full bg-zinc-800 overflow-hidden flex-shrink-0">
@@ -54,7 +62,7 @@ export default function Home() {
               <Image src="/picture-placeholder.jpg" alt='' width={500} height={500} className="w-full h-full"/>
             </div>
 
-            <div className="md:mt-4 cursor-default select-none">
+            <div className="md:mt-4 cursor-default">
               <h1 className="text-4xl font-bold mb-1  hover:text-blue-500 transition text-center sm:text-left">Dominikus Sebastian Ramli</h1>
               <h2 className="text-x sm:text-xl text-gray-400 mb-4 text-center sm:text-left">Aspiring Software Developer & Data Analyst</h2>
 
@@ -114,7 +122,7 @@ export default function Home() {
       </section>
 
       {/* Technologies Section */}
-      <section id="technologies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
+      <section id="technolgies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold mb-8 relative inline-block">
             Technologies
@@ -181,6 +189,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
     </div>
+    </div>
+    
   )
 }
