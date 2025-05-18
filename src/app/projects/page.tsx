@@ -52,6 +52,8 @@ const projects = [
 
 export default function ProjectsPage() {
   const {isLenisEnabled} = useSettings()
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const lenisRef = useRef<any>(null)
   const animationFrameRef = useRef<number | null>(null)
 
@@ -142,7 +144,7 @@ export default function ProjectsPage() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="mt-20 py-10 border-t border-zinc-800 text-center text-zinc-500 text-sm"
       >
-        <p>You've reached the end</p>
+        <p>You&apos;ve reached the end</p>
         <p className="mt-2">Scroll back up to explore more projects!</p>
         {/* <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
