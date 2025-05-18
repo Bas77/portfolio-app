@@ -56,7 +56,7 @@ const projectsData: ProjectsData = {
     ],
     tags: ["Front-end", "React", "Tailwind CSS"],
     github: "https://github.com/Bas77/pharmaplan",
-    liveUrl: "https://pharmaplan-demo.vercel.app",
+    liveUrl: "https://pharmaplan.vercel.app/",
     date: "March 2023",
     features: [
       "User-friendly appointment scheduling system",
