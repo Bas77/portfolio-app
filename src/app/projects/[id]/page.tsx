@@ -193,7 +193,7 @@ export default function ProjectDetail() {
           <section>
             <h2 className="text-2xl font-bold mb-4">Features</h2>
             <ul className="list-disc pl-5 space-y-2 text-gray-300">
-              {project.features.map((feature: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, index: Key | null | undefined) => (
+              {project.features.map((feature: string, index: Key) => (
                 <li key={index}>{feature}</li>
               ))}
             </ul>
@@ -202,7 +202,7 @@ export default function ProjectDetail() {
           <section>
             <h2 className="text-2xl font-bold mb-4">Technologies Used</h2>
             <div className="flex flex-wrap gap-3">
-              {project.technologies.map((tech: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, index: Key | null | undefined) => (
+              {project.technologies.map((tech: string, index: Key) => (
                 <div key={index} className="flex items-center bg-zinc-800 px-4 py-2 rounded-lg">
                   <Code size={16} className="mr-2 text-blue-400" />
                   <span>{tech}</span>

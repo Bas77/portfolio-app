@@ -5,7 +5,6 @@ import { TechCard } from "./component/tech-card"
 import Image from "next/image"
 import { Whatsapp } from "./component/icons/whatsapp"
 import { useEffect } from "react"
-import { div } from "framer-motion/client"
     
 export default function Home() {
   useEffect(() => {
@@ -16,7 +15,6 @@ export default function Home() {
       const wrapper = document.getElementById('lenis-wrapper')
       const content = document.getElementById('lenis-content')
 
-    // ✅ Check they both exist before proceeding
     if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
       console.warn('Lenis wrapper or content not found.')
       return
@@ -192,6 +190,5 @@ export default function Home() {
       </div>
     </div>
     </div>
-    
   )
 }

@@ -58,7 +58,7 @@ export default function ProjectsPage() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">Projects</h1>
         <p className="text-gray-400 mb-12 max-w-2xl">
-          A collection of my recent work and personal projects. Each project represents different skills and technologies I've worked with.
+          A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos; worked with.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
