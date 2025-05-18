@@ -19,7 +19,7 @@ const projects = [
     name: "PharmaPlan",
     description: "A comprehensive health solution platform providing medical services and pharmaceutical products online.",
     image: "/projects/PharmaPlan.png",
-    tags: ["Front-end", "React", "Tailwind CSS"],
+    tags: ["Front-end", "React"],
     github: "https://github.com/Bas77/pharmaplan",
     liveUrl: "https://pharmaplan.vercel.app/",
   },
@@ -112,6 +112,7 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
         
         {/* Links */}
+        <div className="flex justify-between   items-center">
         <div className="flex gap-4">
           <Link 
             href={project.github} 
@@ -130,6 +131,28 @@ function ProjectCard({ project }: { project: Project }) {
           >
             <ExternalLink size={18} />
             <span>Live Demo</span>
+          </Link>
+          </div>
+          <Link
+            href={`/projects/${project.id}`}
+            className="bg-zinc-800 hover:bg-zinc-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-1 text-sm font-medium border border-zinc-700 hover:border-zinc-600 group"
+          >
+            <span>View More</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
           </Link>
         </div>
       </div>
