@@ -40,7 +40,7 @@ export const projectsData = {
     name: "Data Visualization Dashboard",
     description: "Interactive dashboard for visualizing complex datasets with customizable charts and filters.",
     longDescription:
-      "The Data Visualization Dashboard is a powerful tool designed to transform complex datasets into intuitive, interactive visual representations. Built with modern web technologies, it enables users to explore data through customizable charts, graphs, and maps. The dashboard supports real-time data updates and features advanced filtering capabilities to help users extract meaningful insights efficiently.",
+      "A flashcard learning app with full CRUD functionality powered by Supabase. Users can create, edit, delete, and review personalized flashcard sets",
     image: "/images/projects/data-viz.png",
     screenshots: [
       "/images/projects/data-viz.png",

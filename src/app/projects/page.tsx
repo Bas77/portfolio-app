@@ -1,7 +1,8 @@
+'use client'
 import Link from "next/link"
 import Image from "next/image"
 import { Github, ExternalLink, Smartphone, Globe } from 'lucide-react'
-import { Key } from "react"
+import { Key, useEffect } from "react"
 
 // Project data
 interface Project{
@@ -20,7 +21,7 @@ const projects = [
     name: "PharmaPlan",
     description: "A comprehensive health solution platform providing medical services and pharmaceutical products online.",
     image: "/projects/PharmaPlan/PharmaPlan.png",
-    tags: ["Front-end", "React"],
+    tags: ["Front-end", "React", "SASS CSS"],
     github: "https://github.com/Bas77/pharmaplan",
     liveUrl: "https://pharmaplan.vercel.app/",
     type: "web"
@@ -30,7 +31,7 @@ const projects = [
     name: "The Knowledge Cache",
     description: "A flashcard learning app with full CRUD functionality powered by Supabase. Users can create, edit, delete, and review personalized flashcard sets.",
     image: "/projects/KnowledgeCache/KnowledgeCache.jpg",
-    tags: ["React Native", "Supabase"],
+    tags: ["Full-stack", "React Native", "Supabase", "CRUD"],
     github: "https://github.com/Bas77/data-viz",
     liveUrl: "https://data-viz-demo.vercel.app",
     type: "mobile"
@@ -39,7 +40,7 @@ const projects = [
     id: "portfolio",
     name: "Personal Portfolio",
     description: "My personal portfolio website showcasing projects and skills, built with Next.js and Three.js.",
-    image: "/images/projects/portfolio.png",
+    image: "/projects/Portfolio/Portfolio.png",
     tags: ["Next.js", "Three.js", "Tailwind CSS"],
     github: "https://github.com/Bas77/portfolio",
     liveUrl: "#",
@@ -48,7 +49,38 @@ const projects = [
 ]
 
 export default function ProjectsPage() {
+  useEffect(() => {
+      // Import Lenis dynamically to avoid SSR issues
+      const initLenis = async () => {
+        const Lenis = (await import("lenis")).default
+        const Snap = (await import("lenis/snap")).default
+        const wrapper = document.getElementById('lenis-wrapper')
+        const content = document.getElementById('lenis-content')
+  
+      if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
+        console.warn('Lenis wrapper or content not found.')
+        return
+      }
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          wrapper: wrapper as HTMLElement,
+          content: content as HTMLElement,
+        })
+  
+        function raf(time: number) {
+          lenis.raf(time)
+          requestAnimationFrame(raf)
+        }
+  
+        requestAnimationFrame(raf)
+      }
+  
+      initLenis()
+    }, [])
   return (
+    <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
+    <div id='lenis-content' className="will-change-transform"></div>
     <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent ">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">Projects</h1>
@@ -63,6 +95,8 @@ export default function ProjectsPage() {
         </div>
       </div>
     </div>
+    </div>
+    
   )
 }
 
@@ -105,11 +139,13 @@ function ProjectCard({ project }: { project: Project }) {
           />
         )}
       </div>
-      
+      <div className="flex-grow" />
       {/* Project Details */}
-      <div className="p-5">
-        <p className="text-gray-300 mb-4">{project.description}</p>
-        
+      <div className="p-5" >
+        <div className="flex justify-center">
+          <p className="text-gray-300 mb-4 ">{project.description}</p>
+        </div>
+        <div className="flex-grow" />
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-5">
           {project.tags.map((tag: string, index: Key | null | undefined) => (
@@ -127,7 +163,7 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
         
         {/* Links */}
-        <div className="flex justify-between   items-center">
+        <div className="flex justify-between  items-center">
         <div className="flex gap-4">
           <Link 
             href={project.github} 
