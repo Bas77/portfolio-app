@@ -110,7 +110,7 @@ const projectsData = {
       "Vercel for deployment and hosting",
     ],
   },
-}
+} as const
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -118,8 +118,13 @@ export default function ProjectDetail() {
     notFound()
   }
   const projectId = typeof id === "string" ? id : id[0]
-
-  const project = projectsData[projectId]
+  let project = null;
+  if (projectId in projectsData) {
+  project = projectsData[projectId as keyof typeof projectsData];
+  // project is now safe to use
+} else {
+  notFound();
+}
 
   if (!project) {
     notFound()
