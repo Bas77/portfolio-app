@@ -53,7 +53,6 @@ export default function ProjectsPage() {
       // Import Lenis dynamically to avoid SSR issues
       const initLenis = async () => {
         const Lenis = (await import("lenis")).default
-        const Snap = (await import("lenis/snap")).default
         const wrapper = document.getElementById('lenis-wrapper')
         const content = document.getElementById('lenis-content')
   
