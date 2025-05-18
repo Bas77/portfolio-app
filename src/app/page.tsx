@@ -167,7 +167,7 @@
   }, [isLenisEnabled]);
     return (
       <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
-      <div id='lenis-content' className="will-change-transform">
+      <div id='lenis-content' className="will-change-transform overflow-x-hidden">
         <div className="snap-container caret-transparent" >
         {/* Hero Section */}
         <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16" >

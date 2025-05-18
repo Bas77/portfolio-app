@@ -9,7 +9,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
@@ -19,7 +19,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   position: relative;
   padding-top: 0;
 }::selection {
@@ -29,7 +29,7 @@ body {
 
 /* Snap Scrolling */  
 .snap-container {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   /* height: 100vh; */
   width: 100vw;
   overflow-y: scroll;
@@ -41,6 +41,7 @@ body {
 .snap-section {
   min-height: 100vh; /* Changed from height to min-height */
   /* scroll-snap-align: start; */
+  overflow: hidden !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,6 +52,7 @@ body {
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar-track {
