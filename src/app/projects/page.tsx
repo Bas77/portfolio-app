@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Github, ExternalLink } from 'lucide-react'
+import { Github, ExternalLink, Smartphone, Globe } from 'lucide-react'
 import { Key } from "react"
 
 // Project data
@@ -12,6 +12,7 @@ interface Project{
     tags: string[],
     github: string,
     liveUrl: string
+    type: string
 }
 const projects = [
   {
@@ -22,24 +23,17 @@ const projects = [
     tags: ["Front-end", "React"],
     github: "https://github.com/Bas77/pharmaplan",
     liveUrl: "https://pharmaplan.vercel.app/",
+    type: "web"
   },
   {
-    id: "data-viz",
-    name: "Data Visualization Dashboard",
+    id: "theknowledgecache",
+    name: "The Knowledge Cache",
     description: "Interactive dashboard for visualizing complex datasets with customizable charts and filters.",
-    image: "/images/projects/data-viz.png",
-    tags: ["TypeScript", "D3.js", "Power BI"],
+    image: "/projects/KnowledgeCache.jpg",
+    tags: ["React Native", "Supabase"],
     github: "https://github.com/Bas77/data-viz",
     liveUrl: "https://data-viz-demo.vercel.app",
-  },
-  {
-    id: "ai-chatbot",
-    name: "AI Chatbot Assistant",
-    description: "Intelligent conversational agent built with natural language processing to assist users with queries.",
-    image: "/images/projects/ai-chatbot.png",
-    tags: ["Python", "Machine Learning", "NLP"],
-    github: "https://github.com/Bas77/ai-chatbot",
-    liveUrl: "https://ai-chatbot-demo.vercel.app",
+    type: "mobile"
   },
   {
     id: "portfolio",
@@ -49,16 +43,17 @@ const projects = [
     tags: ["Next.js", "Three.js", "Tailwind CSS"],
     github: "https://github.com/Bas77/portfolio",
     liveUrl: "#",
+    type: "web"
   }
 ]
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16">
+    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent ">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">Projects</h1>
         <p className="text-gray-400 mb-12 max-w-2xl">
-          A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos; worked with.
+          A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos;ve worked with.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -73,22 +68,42 @@ export default function ProjectsPage() {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <div className="bg-zinc-900/80 rounded-xl overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 group">
+    <div className="bg-zinc-900/80 rounded-xl overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 group h-full flex flex-col">
       {/* Project Name at the top */}
-      <div className="p-5 border-b border-zinc-800">
-        <h2 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-          {project.name}
-        </h2>
+      <div className="p-5 border-b border-zinc-800 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          {project.type === "mobile" ? (
+            <Smartphone size={18} className="text-purple-400" />
+          ) : (
+            <Globe size={18} className="text-blue-400" />
+          )}
+          <h2 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{project.name}</h2>
+        </div>
       </div>
       
       {/* Project Image */}
-      <div className="relative h-64 overflow-hidden">
-        <Image 
-          src={project.image || "/placeholder.svg"} 
-          alt={project.name}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+       <div className="relative h-64 overflow-hidden">
+        {project.type === "mobile" ? (
+          <div className="w-full h-full flex justify-center items-center bg-gradient-to-b from-zinc-900 to-black">
+            <div className="relative w-[140px] h-[280px]">
+              {/* Phone Frame */}
+              <div className="absolute inset-0 rounded-[24px] border-[6px] border-zinc-800 bg-black z-10"></div>
+              {/* Screen Content */}
+              <div className="absolute inset-[6px] rounded-[18px] overflow-hidden z-20">
+                <Image src={project.image || "/placeholder.svg"} alt={project.name} fill className="object-cover" />
+              </div>
+              {/* Notch */}
+              <div className="absolute top-[6px] left-1/2 transform -translate-x-1/2 w-[50px] h-[15px] bg-zinc-800 rounded-b-xl z-30"></div>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={project.image || "/placeholder.svg"}
+            alt={project.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
       </div>
       
       {/* Project Details */}
