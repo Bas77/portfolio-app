@@ -57,7 +57,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 ml-0 md:ml-20">
             <div className="w-48 h-48 rounded-full bg-zinc-800 overflow-hidden flex-shrink-0">
               {/* Placeholder for profile image */}
-              <Image src="/picture-placeholder.jpg" alt='' width={500} height={500} className="w-full h-full"/>
+              <Image src="/profile.png" alt='' width={500} height={500} className="w-full h-full"/>
             </div>
 
             <div className="md:mt-4 cursor-default">
