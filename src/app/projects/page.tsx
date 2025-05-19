@@ -34,8 +34,8 @@ const projects = [
     description: "A flashcard learning app with full CRUD functionality powered by Supabase. Users can create, edit, delete, and review personalized flashcard sets.",
     image: "/projects/KnowledgeCache/KnowledgeCache.jpg",
     tags: ["Full-stack", "React Native", "Supabase", "CRUD"],
-    github: "https://github.com/Bas77/data-viz",
-    liveUrl: "https://data-viz-demo.vercel.app",
+    github: "https://github.com/Bas77/the-knowledge-cache",
+    liveUrl: "https://expo.dev/accounts/bas77/projects/the-knowledge-cache/builds/8f6d938b-adbc-4294-a97f-3e7e93fe275f",
     type: "mobile"
   },
   {
@@ -44,8 +44,18 @@ const projects = [
     description: "My personal portfolio website showcasing projects and skills, built with Next.js and Three.js.",
     image: "/projects/Portfolio/Portfolio.png",
     tags: ["Next.js", "Tailwind CSS"],
-    github: "https://github.com/Bas77/portfolio",
+    github: "https://github.com/Bas77/portfolio-app",
     liveUrl: "#",
+    type: "web"
+  },
+  {
+    id: "threejstest",
+    name: "Text Particle Animation",
+    description: "A website where I test the functionality of Three.js. These particles respond to user input like mouse movement or clicking.",
+    image: "/projects/TextParticle/TextParticle.png",
+    tags: ["Three.js"],
+    github: "https://github.com/Bas77/threejs-text-particle",
+    liveUrl: "https://bas77-threejs-test.vercel.app",
     type: "web"
   }
 ]
@@ -275,15 +285,18 @@ function getTagColor(tag: string, opacity = 1) {
   
   return {
       "Front-end": `rgba(79, 70, 229, ${opacity})`,
+      "React Native": `rgba(20, 184, 166, ${opacity})`,
       "React": `rgba(20, 184, 166, ${opacity})`,
       "Tailwind CSS": `rgba(6, 182, 212, ${opacity})`,
       "TypeScript": `rgba(59, 130, 246, ${opacity})`,
       "D3.js": `rgba(249, 115, 22, ${opacity})`,
       "Power BI": `rgba(234, 179, 8, ${opacity})`,
       "Python": `rgba(59, 130, 246, ${opacity})`,
-      "Machine Learning": `rgba(168, 85, 247, ${opacity})`,
-      "NLP": `rgba(236, 72, 153, ${opacity})`,
       "Next.js": `rgba(0, 0, 0, ${opacity})`,
       "Three.js": `rgba(239, 68, 68, ${opacity})`,
+      "SASS CSS": `rgba(232,116,156, ${opacity})`,
+      "CRUD": `rgba(150, 114, 128, ${opacity})`,         // Neutral gray-blue, representing core logic
+      "Supabase": `rgba(16, 185, 129, ${opacity})`,      // Greenish teal, matching Supabase branding
+      "Full-stack": `rgba(99, 102, 241, ${opacity})`, 
   }[tag] || `rgba(107, 114, 128, ${opacity})`
 }

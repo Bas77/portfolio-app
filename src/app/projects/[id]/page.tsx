@@ -29,7 +29,7 @@ export interface WebProject extends BaseProject {
 export interface MobileProject extends BaseProject {
   type: "mobile"
   platforms?: ("iOS" | "Android")[]
-  appStore?: string
+  apkLink?: string
   playStore?: string
 }
 
@@ -57,20 +57,15 @@ const projectsData: ProjectsData = {
     tags: ["Front-end", "React", "Tailwind CSS"],
     github: "https://github.com/Bas77/pharmaplan",
     liveUrl: "https://pharmaplan.vercel.app/",
-    date: "March 2023",
+    date: "June 2024",
     features: [
-      "User-friendly appointment scheduling system",
-      "Secure patient-doctor communication portal",
-      "Integrated prescription management",
-      "Personalized health recommendations",
+      "Implements React Hooks like useState and useEffect for state and lifecycle management", 
       "Responsive design for all devices",
     ],
     technologies: [
+      "Figma for early design prototype",
       "React.js for frontend development",
-      "Tailwind CSS for styling",
-      "Node.js backend with Express",
-      "MongoDB for database management",
-      "JWT for authentication",
+      "SASS CSS for styling",
     ],
     type: "web",
   },
@@ -89,21 +84,19 @@ const projectsData: ProjectsData = {
     ],
     tags: ["React Native", "Supabase", "CRUD"],
     github: "https://github.com/Bas77/data-viz",
-    appStore: "https://apps.apple.com/app/fittrack",
-    playStore: "https://play.google.com/store/apps/details?id=com.bas77.fittrack",
-    // liveUrl: "https://data-viz-demo.vercel.app",
-    date: "November 2023",
+    apkLink: "https://expo.dev/accounts/bas77/projects/the-knowledge-cache/builds/8f6d938b-adbc-4294-a97f-3e7e93fe275f",
+    date: "April 2025",
     features: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "Authentication and role-based access control using Supabase Auth",
+      "Full CRUD operations on flashcards via Supabase Database (PostgreSQL)",
+      "Clean mobile-first UI with animated transitions and dark mode support",
+      "Navigation with stack/tab integration using React Navigation",
     ],
     technologies: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "React Native with TypeScript",
+      "Expo for cross-platform development and builds",
+      "Supabase for authentication and cloud database (PostgreSQL)",
+      "React Navigation for routing and screen transitions",
     ],
     type: "mobile",
   },
@@ -334,18 +327,19 @@ function MobileAppDetail({ project }: MobileAppDetailProps) {
 
               {/* App Store Links */}
               <div className="flex flex-wrap gap-4 mb-8">
-                {project.appStore && (
+                {project.apkLink && (
                   <Link
-                    href={project.appStore}
+                    href={project.apkLink}
                     className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 border border-zinc-700"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.21 2.33-.91 3.57-.84 1.5.09 2.63.64 3.38 1.64-2.63 1.55-2.2 5.52.76 6.59-.71 1.88-1.63 3.72-2.8 4.78h.01Z" />
-                      <path d="M12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.26 2.31-1.63 4.1-3.74 4.25Z" />
+                      <path d="M4.42 20.1c.14.08.31.11.49.11.34 0 .69-.11.98-.31l8.49-4.7-2.2-2.2-7.76 7.1Zm-.01-16.2c-.02.34.11.69.34.98l7.76 7.07 2.2-2.2-8.49-4.7c-.29-.2-.64-.31-.98-.31-.18 0-.35.03-.49.11l-.34.19v-1.14Z" />
+                      <path d="M20.04 10.35 18.3 9.36l-2.25 2.25 2.25 2.25 1.74-.99c.52-.29.84-.84.84-1.43s-.32-1.14-.84-1.43v-.66Z" />
+                      <path d="m4.75 4.88 7.75 7.07 2.2-2.2-8.49-4.7c-.29-.2-.64-.31-.98-.31-.18 0-.35.03-.49.11l.01.03Z" />
                     </svg>
-                    <span>App Store</span>
+                    <span>APK Install</span>
                   </Link>
                 )}
 
