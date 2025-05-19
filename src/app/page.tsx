@@ -1,10 +1,10 @@
   'use client'
   import Link from "next/link"
-  import { Github, Linkedin } from "lucide-react"
+  import { Construction, Github, Linkedin } from "lucide-react"
   import { TechCard } from "./component/tech-card"
   import Image from "next/image"
   import { Whatsapp } from "./component/icons/whatsapp"
-  import { useEffect, useRef } from "react"
+  import { useEffect, useRef, useState } from "react"
   import { useSettings } from "./context/settings-context"
       
   export default function Home() {
@@ -12,7 +12,7 @@
     const animationFrameRef = useRef<number | null>(null);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const lenisRef = useRef<any>(null);
-
+    const [activeTab, setActiveTab] = useState("education")
   useEffect(() => {
     let raf: (time: number) => void;
 
@@ -165,6 +165,26 @@
       }
     }
   }, [isLenisEnabled]);
+
+  interface TabButtonProps {
+    children: React.ReactNode
+    isActive: boolean
+    onClick: () => void
+  }
+  
+  const TabButton = ({ children, isActive, onClick }: TabButtonProps) => {
+    return (
+      <button
+        onClick={onClick}
+        className={`text-2xl font-bold relative pb-2 transition-colors ${
+          isActive ? "text-white" : "text-gray-400 hover:text-gray-300"
+        }`}
+      >
+        {children}
+        {isActive && <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-500"></span>}
+      </button>
+    )
+  }
     return (
       <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
       <div id='lenis-content' className="will-change-transform overflow-x-hidden">
@@ -241,73 +261,112 @@
         </section>
 
         {/* Technologies Section */}
-        <section id="technologies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 relative inline-block">
-              Technologies
-              <span className="absolute bottom-[-8px] left-0 w-full h-1 bg-blue-500"></span>
-            </h2>
+        <section id="experience-education" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
+            <div className="max-w-5xl mx-auto">
+              {/* Tabs */}
+              <div className="flex space-x-8 mb-8">
+                <TabButton
+                  isActive={activeTab === "education"}
+                  onClick={() => setActiveTab("education")}
+                >
+                  Education
+                </TabButton>
+                {/* <TabButton
+                  isActive={activeTab === "experience"}
+                  onClick={() => setActiveTab("experience")}
+                >
+                  Work Experience
+                </TabButton> */}
+              </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <TechCard
-                name="Python"
-                icon="https://api.iconify.design/vscode-icons:file-type-python.svg"
-                color="59, 130, 246"
-                description="A versatile programming language used for web development, data analysis, AI, and automation."
-              />
-              <TechCard
-                name="CSS"
-                icon="https://api.iconify.design/vscode-icons:file-type-css2.svg"
-                color="14, 165, 233"
-                description="Cascading Style Sheets for designing and styling web applications with precision."
-              />
-              <TechCard
-                name="React"
-                icon="https://api.iconify.design/vscode-icons:file-type-reactjs.svg"
-                color="20, 184, 166"
-                description="A JavaScript library for building user interfaces with reusable components."
-              />
-              <TechCard
-                name="Tailwind CSS"
-                icon="https://api.iconify.design/vscode-icons:file-type-tailwind.svg"
-                color="6, 182, 212"
-                description="A utility-first CSS framework for rapidly building custom user interfaces."
-              />
-              <TechCard
-                name="Power BI"
-                icon="https://api.iconify.design/logos:microsoft-power-bi.svg"
-                color="234, 179, 8"
-                description="A business analytics tool to visualize data with interactive dashboards and reports."
-              />
-              <TechCard
-                name="HTML"
-                icon="https://api.iconify.design/vscode-icons:file-type-html.svg"
-                color="239, 68, 68"
-                description="The standard markup language for creating web pages and applications."
-              />
-              <TechCard
-                name="TypeScript"
-                icon="https://api.iconify.design/vscode-icons:file-type-typescript-official.svg"
-                color="59, 130, 246"
-                description="A strongly typed programming language that builds on JavaScript for safer code."
-              />
-              <TechCard
-                name="Supabase"
-                icon="https://api.iconify.design/material-icon-theme:supabase.svg"
-                color="16, 185, 129"
-                description="An open-source Firebase alternative that offers a full Postgres backend, RESTful APIs, and more"
-              />
-              {/* lol */}
-              {/* <TechCard
-                name="V0"
-                icon="/skills/v0.png"
-                color="0, 0, 0"
-                description="A preprocessor scripting language that extends CSS with variables, nesting, and more."
-                experience="4+ years"
-              /> */}
+              {/* Tab Content */}
+              <div className="mt-6">
+                {/* Education Content */}
+                {activeTab === "education" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 hover:translateY(-2px)">
+                    <div className="bg-[#121212] rounded-xl p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full ">
+                      <div className="flex flex-col sm:flex-row justify-between mb-2">
+                        <h3 className="text-xl font-bold text-white">Bina Nusantara University</h3>
+                        <span className="text-blue-400 font-medium">2022 - Present</span>
+                      </div>
+                      <p className="text-gray-400 mb-2">Bachelor of Computer Science</p>
+                      <p className="text-gray-300">
+                        Focusing on software engineering and data science with coursework in algorithms, data
+                        structures, database systems, and web development. Currently maintaining a GPA of 3.8/4.0.
+                      </p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Data Structures
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Algorithms and Programming
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Database Design
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Software Engineering
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#121212] rounded-xl p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full">
+                      <div className="flex flex-col sm:flex-row justify-between mb-2">
+                        <h3 className="text-xl font-bold text-white">Sekolah Dian Harapan</h3>
+                        <span className="text-blue-400 font-medium">2019 - 2022</span>
+                      </div>
+                      <p className="text-gray-400 mb-2">High School Diploma, Science Track (IPA)</p>
+                      <p className="text-gray-300">
+                        Gained foundational skills in digital tools including 3D modeling, Adobe Photoshop, and Microsoft Excel.
+                        Developed a basic understanding of productivity applications through hands-on projects and guided instruction.
+                      </p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Mathematics
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          3D Modeling
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Microsoft Excel
+                        </span>
+                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          Biology
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Work Experience Placeholder */}
+                {activeTab === "experience" && (
+                  <div className="min-h-[400px] flex flex-col items-center justify-center bg-[#121212] rounded-xl p-8 border border-zinc-800">
+                    <Construction size={64} className="text-blue-400 mb-4" />
+                    <h3 className="text-2xl font-bold text-white mb-2">Work Experience Coming Soon</h3>
+                    <p className="text-gray-300 text-center max-w-lg">
+                      This section is currently under development. Check back soon to see my professional experience and
+                      career achievements.
+                    </p>
+                    <div className="mt-8 flex gap-4">
+                      <Link
+                        href="/projects"
+                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                      >
+                        View My Projects
+                      </Link>
+                      <Link
+                        href="https://github.com/Bas77"
+                        className="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <Github size={18} />
+                        GitHub Profile
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         
         <section id="technologies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
           <div className="max-w-5xl mx-auto">
