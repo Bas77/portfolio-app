@@ -1,6 +1,6 @@
   'use client'
   import Link from "next/link"
-  import { Construction, Github, Linkedin } from "lucide-react"
+  import { Github, Linkedin } from "lucide-react"
   import { TechCard } from "./component/tech-card"
   import Image from "next/image"
   import { Whatsapp } from "./component/icons/whatsapp"
@@ -262,111 +262,74 @@
 
         {/* Technologies Section */}
         <section id="experience-education" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
-            <div className="max-w-5xl mx-auto">
-              {/* Tabs */}
-              <div className="flex space-x-8 mb-8">
-                <TabButton
-                  isActive={activeTab === "education"}
-                  onClick={() => setActiveTab("education")}
-                >
-                  Education
-                </TabButton>
-                {/* <TabButton
-                  isActive={activeTab === "experience"}
-                  onClick={() => setActiveTab("experience")}
-                >
-                  Work Experience
-                </TabButton> */}
-              </div>
+  <div className="max-w-5xl mx-auto">
+    {/* Tabs */}
+    <div className="flex space-x-8 mb-6 overflow-x-auto pb-2"> {/* Added overflow for mobile */}
+      <TabButton
+        isActive={activeTab === "education"}
+        onClick={() => setActiveTab("education")}
+      >
+        Education
+      </TabButton>
+    </div>
 
-              {/* Tab Content */}
-              <div className="mt-6">
-                {/* Education Content */}
-                {activeTab === "education" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 hover:translateY(-2px)">
-                    <div className="bg-[#121212] rounded-xl p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full ">
-                      <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-xl font-bold text-white">Bina Nusantara University</h3>
-                        <span className="text-blue-400 font-medium">2022 - Present</span>
-                      </div>
-                      <p className="text-gray-400 mb-2">Bachelor of Computer Science</p>
-                      <p className="text-gray-300">
-                        Focusing on software engineering and data science with coursework in algorithms, data
-                        structures, database systems, and web development. Currently maintaining a GPA of 3.90/4.0.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Data Structures
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Algorithms and Programming
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Database Design
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Software Engineering
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="bg-[#121212] rounded-xl p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full">
-                      <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-xl font-bold text-white">Sekolah Dian Harapan</h3>
-                        <span className="text-blue-400 font-medium">2019 - 2022</span>
-                      </div>
-                      <p className="text-gray-400 mb-2">High School Diploma, Science Track (IPA)</p>
-                      <p className="text-gray-300">
-                        Gained foundational skills in digital tools including 3D modeling, Adobe Photoshop, and Microsoft Excel.
-                        Developed a basic understanding of productivity applications through hands-on projects and guided instruction.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Mathematics
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          3D Modeling
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Microsoft Excel
-                        </span>
-                        <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                          Biology
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Work Experience Placeholder */}
-                {activeTab === "experience" && (
-                  <div className="min-h-[400px] flex flex-col items-center justify-center bg-[#121212] rounded-xl p-8 border border-zinc-800">
-                    <Construction size={64} className="text-blue-400 mb-4" />
-                    <h3 className="text-2xl font-bold text-white mb-2">Work Experience Coming Soon</h3>
-                    <p className="text-gray-300 text-center max-w-lg">
-                      This section is currently under development. Check back soon to see my professional experience and
-                      career achievements.
-                    </p>
-                    <div className="mt-8 flex gap-4">
-                      <Link
-                        href="/projects"
-                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                      >
-                        View My Projects
-                      </Link>
-                      <Link
-                        href="https://github.com/Bas77"
-                        className="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg transition-colors flex items-center gap-2"
-                      >
-                        <Github size={18} />
-                        GitHub Profile
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
+    {/* Tab Content */}
+    <div className="mt-4 md:mt-6">
+      {activeTab === "education" && (
+        <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
+          {/* University Card */}
+          <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
+            <div className="flex flex-col sm:flex-row justify-between mb-2">
+              <h3 className="text-lg md:text-xl font-bold text-white">Bina Nusantara University</h3>
+              <span className="text-blue-400 font-medium text-sm md:text-base">2022 - Present</span>
             </div>
-          </section>
+            <p className="text-gray-400 text-sm md:text-base mb-2">Bachelor of Computer Science</p>
+            <p className="text-gray-300 text-sm md:text-base">
+              Focusing on software engineering and data science with coursework in algorithms, data
+              structures, database systems, and web development.
+            </p>
+            <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                Data Structures
+              </span>
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                Database Design
+              </span>
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                Algorithm and Programming
+              </span>
+              {/* Other tags... */}
+            </div>
+          </div>
+
+          {/* High School Card */}
+          <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
+            <div className="flex flex-col sm:flex-row justify-between mb-2">
+              <h3 className="text-lg md:text-xl font-bold text-white">Sekolah Dian Harapan</h3>
+              <span className="text-blue-400 font-medium text-sm md:text-base">2019 - 2022</span>
+            </div>
+            <p className="text-gray-400 text-sm md:text-base mb-2">High School Diploma, Science Track (IPA)</p>
+            <p className="text-gray-300 text-sm md:text-base">
+              Gained foundational skills in digital tools including 3D modeling, Adobe Photoshop, and Microsoft Excel.
+            </p>
+            <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                Mathematics
+              </span>
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                Science
+              </span>
+              <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                English
+              </span>
+              {/* Other tags... */}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
         
         <section id="technologies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16">
           <div className="max-w-5xl mx-auto">
