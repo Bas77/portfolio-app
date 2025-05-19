@@ -292,7 +292,7 @@
                       <p className="text-gray-400 mb-2">Bachelor of Computer Science</p>
                       <p className="text-gray-300">
                         Focusing on software engineering and data science with coursework in algorithms, data
-                        structures, database systems, and web development. Currently maintaining a GPA of 3.8/4.0.
+                        structures, database systems, and web development. Currently maintaining a GPA of 3.90/4.0.
                       </p>
                       <div className="mt-4 flex flex-wrap gap-2">
                         <span className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
