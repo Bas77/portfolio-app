@@ -3,6 +3,7 @@
 import { X } from "lucide-react"
 import { useSettings } from "../context/settings-context"
 import { useEffect } from "react"
+import Link from "next/link"
 
 export function SettingsSidebar() {
   const { isSidebarOpen, toggleSidebar, isSpotlightEnabled, toggleSpotlight, isLenisEnabled, toggleLenis } = useSettings()
@@ -50,7 +51,7 @@ export function SettingsSidebar() {
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-white">Settings</h2>
+            <Link className="text-xl font-bold text-white cursor-help" href='/models' passHref>Settings</Link>
             <button
               onClick={toggleSidebar}
               className="p-2 rounded-full hover:bg-zinc-800 text-gray-400 hover:text-white transition-colors"
@@ -103,7 +104,7 @@ export function SettingsSidebar() {
 
               <div className="flex items-center justify-between">
                 <label htmlFor="lenis-toggle" className="text-gray-300 cursor-pointer">
-                  Lenis Scrolling (Smooth)
+                  Lenis Scrolling
                 </label>
                 <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full">
                   <input
@@ -129,7 +130,7 @@ export function SettingsSidebar() {
               </div>
 
               <p className="text-xs text-gray-500">
-                Enables buttery-smooth scrolling for a more fluid and refined browsing experience.
+                Enables buttery-smooth scrolling for a more fluid browsing experience. IMPORTANT: Broken in some mobile browsers
               </p>
             </div>
 

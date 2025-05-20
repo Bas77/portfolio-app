@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
-
+import { isMobile } from 'react-device-detect';
 type SettingsContextType = {
   isSpotlightEnabled: boolean
   toggleSpotlight: () => void
@@ -56,9 +56,17 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
       // Load lenis preference
       const savedLenis = localStorage.getItem('lenisEnabled')
-      if (savedSpotlight !== null) {
+      if (savedLenis !== null) {
         setIsLenisEnabled(savedLenis === "true")
-      }
+      } else {
+        // Disable Lenis on mobile devices by default
+        // const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+        if (isMobile) {
+          console.log('isMobile: ', isMobile);
+          setIsLenisEnabled(false)
+          localStorage.setItem("lenisEnabled", "false")
+        }
+    }
     }
   }, [])
 

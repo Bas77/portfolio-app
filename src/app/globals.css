@@ -136,6 +136,7 @@ html.lenis body {
   overflow: auto;
 }
 
-/* #lenis-content {
-  /* min-height: 200%; or however long your content is */
-/* } */ 
+/* For Hidden Links */
+a.cursor-none {
+  cursor: help !important;
+}
