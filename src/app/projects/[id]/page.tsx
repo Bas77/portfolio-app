@@ -85,7 +85,7 @@ const projectsData: ProjectsData = {
     tags: ["React Native", "Supabase", "CRUD"],
     github: "https://github.com/Bas77/data-viz",
     apkLink: "https://expo.dev/accounts/bas77/projects/the-knowledge-cache/builds/8f6d938b-adbc-4294-a97f-3e7e93fe275f",
-    date: "April 2025",
+    date: "February 2025",
     features: [
       "Authentication and role-based access control using Supabase Auth",
       "Full CRUD operations on flashcards via Supabase Database (PostgreSQL)",
@@ -99,6 +99,60 @@ const projectsData: ProjectsData = {
       "React Navigation for routing and screen transitions",
     ],
     type: "mobile",
+  },
+  portfolio: {
+    id: "portolio",
+    name: "Personal Portfolio",
+    description: "My personal portfolio website showcasing projects and skills, built with Next.js.",
+    longDescription:
+      "My personal portfolio website showcasing projects and skills, built with Next.js.",
+    image: "/projects/Portfolio/Portfolio.png",
+    screenshots: [
+      "/projects/Portfolio/Portfolio.png",
+      "/projects/Portfolio/Portfolio-projects.png",
+    ],
+    tags: ["Next.js", "Tailwind CSS"],
+    github: "https://github.com/Bas77/portfolio-app",
+    liveUrl: "#",
+    date: "April 2025",
+    features: [
+      "Authentication and role-based access control using Supabase Auth",
+      "Full CRUD operations on flashcards via Supabase Database (PostgreSQL)",
+      "Clean mobile-first UI with animated transitions and dark mode support",
+      "Navigation with stack/tab integration using React Navigation",
+    ],
+    technologies: [
+      "React Native with TypeScript",
+      "Expo for cross-platform development and builds",
+      "Supabase for authentication and cloud database (PostgreSQL)",
+      "React Navigation for routing and screen transitions",
+    ],
+    type: "web",
+  },
+  threejstest: {
+    id: "threejstest",
+    name: "Text Particle Animation",
+    description: "A website where I test the functionality of Three.js. These particles respond to user input like mouse movement or clicking.",
+    longDescription:
+      "A website where I test the functionality of Three.js. These particles respond to user input like mouse movement or clicking.",
+    image: "/projects/TextParticle/TextParticle.png",
+    screenshots: [
+      "/projects/TextParticle/TextParticle.png",
+    ],
+    tags: ["Three.js"],
+    github: "https://github.com/Bas77/threejs-text-particle",
+    liveUrl: "https://bas77-threejs-test.vercel.app",
+    date: "April 2025",
+    features: [
+      "Authentication and role-based access control using Supabase Auth",
+      "Full CRUD operations on flashcards via Supabase Database (PostgreSQL)",
+      "Clean mobile-first UI with animated transitions and dark mode support",
+      "Navigation with stack/tab integration using React Navigation",
+    ],
+    technologies: [
+      "Lorem ipsum for lorem ipsum",
+    ],
+    type: "web",
   },
 }
 
@@ -443,6 +497,9 @@ function getTagColor(tag: string, opacity = 1): string {
     Mobile: `rgba(139, 92, 246, ${opacity})`,
     Flutter: `rgba(14, 165, 233, ${opacity})`,
     Firebase: `rgba(249, 115, 22, ${opacity})`,
+    "CRUD": `rgba(150, 114, 128, ${opacity})`,        
+    "Supabase": `rgba(16, 185, 129, ${opacity})`, 
+    "Full-stack": `rgba(99, 102, 241, ${opacity})`, 
   }
 
   return colors[tag] || `rgba(107, 114, 128, ${opacity})`
