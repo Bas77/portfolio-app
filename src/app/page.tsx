@@ -196,6 +196,7 @@ import Head from "next/head"
         <meta property="og:title" content="Dominikus Sebastian Ramli Portfolio" />
         <meta property="og:description" content="Explore my projects and skills." />
         <meta property="og:image" content="/profile.jpg" />
+        <meta name="google-site-verification" content="t0LoOobknWLz1n7QEs87jDvrwb36v_Y6kfBAoh7DLGY" />
       </Head>
         {/* Hero Section */}
         <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16" >
