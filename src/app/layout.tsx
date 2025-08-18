@@ -22,6 +22,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dominikus Sebastian Ramli | Software Developer",
   description: "Personal portfolio of Dominikus Sebastian Ramli, Software Developer",
+  other: {
+    "google-site-verification": "t0LoOobknWLz1n7QEs87jDvrwb36v_Y6kfBAoh7DLGY",
+  },
 }
 
 export default function RootLayout({
@@ -33,7 +36,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="overflow-x-hidden">
         <Head>
-          <meta name="google-site-verification" content="abc123..." />
+          <meta name="google-site-verification" content="t0LoOobknWLz1n7QEs87jDvrwb36v_Y6kfBAoh7DLGY" />
           <meta name="description" content="Portfolio of Dominikus Sebastian Ramli, a developer skilled in Next.js, React, and Tailwind CSS." />
           <meta name="keywords" content="Dominikus Sebastian Ramli, software developer, Next.js, React, portfolio" />
           <meta property="og:title" content="Dominikus Sebastian Ramli Portfolio" />
