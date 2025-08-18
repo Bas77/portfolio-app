@@ -38,7 +38,7 @@ export type Project = WebProject | MobileProject
 export type ProjectsData = {
   [key: string]: Project
 }
-// Project data - in a real app, this would come from a database or API
+
 const projectsData: ProjectsData = {
   pharmaplan: {
     id: "pharmaplan",
@@ -151,6 +151,37 @@ const projectsData: ProjectsData = {
     ],
     technologies: [
       "Lorem ipsum for lorem ipsum",
+    ],
+    type: "web",
+  },
+  binuschessclub: {
+    id: "binuschessclub",
+    name: "BINUS Chess Club Website",
+    description: "An official website for BINUS' collegiate chess club",
+    longDescription:
+      "An official website for BINUS' collegiate chess club.",
+    image: "/projects/BCC/BCC.png",
+    screenshots: [
+      "/projects/BCC/BCC.png",
+      "/projects/BCC/BCC-About.png",
+      "/projects/BCC/BCC-Teams.png",
+      "/projects/BCC/BCC-Events.png",
+    ],
+    tags: ["React Native", "Tailwind CSS"],
+    github: "https://github.com/mzf11125/binus-chess-knight-club",
+    liveUrl: "https://www.binuschess.club/",
+    date: "July 2025",
+    features: [
+      "Authentication and role-based access control using Supabase Auth",
+      "Full CRUD operations on flashcards via Supabase Database (PostgreSQL)",
+      "Clean mobile-first UI with animated transitions and dark mode support",
+      "Navigation with stack/tab integration using React Navigation",
+    ],
+    technologies: [
+      "React Native with TypeScript",
+      "Expo for cross-platform development and builds",
+      "Supabase for authentication and cloud database (PostgreSQL)",
+      "React Navigation for routing and screen transitions",
     ],
     type: "web",
   },

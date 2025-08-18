@@ -6,6 +6,7 @@
   import { Whatsapp } from "./component/icons/whatsapp"
   import { useEffect, useRef, useState } from "react"
   import { useSettings } from "./context/settings-context"
+import Head from "next/head"
       
   export default function Home() {
     const { isLenisEnabled } = useSettings()
@@ -189,6 +190,13 @@
       <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
       <div id='lenis-content' className="will-change-transform overflow-x-hidden">
         <div className="snap-container caret-transparent" >
+        <Head>
+        <meta name="description" content="Portfolio of Dominikus Sebastian Ramli, a developer skilled in Next.js, React, and Tailwind CSS." />
+        <meta name="keywords" content="Dominikus Sebastian Ramli, software developer, Next.js, React, portfolio" />
+        <meta property="og:title" content="Dominikus Sebastian Ramli Portfolio" />
+        <meta property="og:description" content="Explore my projects and skills." />
+        <meta property="og:image" content="/profile.jpg" />
+      </Head>
         {/* Hero Section */}
         <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16" >
           <div className="max-w-5xl mx-auto">

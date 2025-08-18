@@ -237,13 +237,7 @@ export default function ContactPage() {
   const [activeSection, setActiveSection] = useState<'private' | 'public'>('private');
 
   return (
-    <>
-      <div className='mt-10 mt:mb-18'>
-        <title>Get In Touch - MyPortfolio (UI Only)</title>
-        <meta name="description" content="Contact me (UI demonstration)." />
-        <link rel="icon" href="/favicon.ico" />
-      </div>
-
+    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
       <div className="min-h-screen text-slate-100 font-sans">
         <main className="container mx-auto px-4 py-12 sm:py-16" id="contact">
           <header className="text-center mb-12 sm:mb-16">
@@ -295,6 +289,6 @@ export default function ContactPage() {
           </div>
         </main>
       </div>
-    </>
+    </div>
   );
 }

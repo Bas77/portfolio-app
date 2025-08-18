@@ -57,7 +57,17 @@ const projects = [
     github: "https://github.com/Bas77/threejs-text-particle",
     liveUrl: "https://bas77-threejs-test.vercel.app",
     type: "web"
-  }
+  },
+  {
+    id: "binuschessclub",
+    name: "BINUS Chess Club Website",
+    description: "A modern, responsive web application developed for Bina Nusantara University’s collegiate chess club.",
+    image: "/projects/BCC/BCC.png",
+    tags: ["Front-end", "React", "Tailwind CSS"],
+    github: "https://github.com/mzf11125/binus-chess-knight-club",
+    liveUrl: "https://www.binuschess.club/",
+    type: "web"
+  },
 ]
 
 export default function ProjectsPage() {
@@ -135,11 +145,13 @@ export default function ProjectsPage() {
     <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
     <div id='lenis-content' className="will-change-transform"></div>
     <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2">Projects</h1>
-        <p className="text-gray-400 mb-12 max-w-2xl">
-          A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos;ve worked with.
-        </p>
+      <div className="max-w-6xl mx-auto mt-13 sm:mt-17">
+        <header className="text-center mb-12 sm:mb-16">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">Projects</h1>
+            <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
+              A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos;ve worked with.
+            </p>
+          </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
