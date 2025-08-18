@@ -41,7 +41,7 @@ const projects = [
   {
     id: "portfolio",
     name: "Personal Portfolio",
-    description: "My personal portfolio website showcasing projects and skills, built with Next.js and Three.js.",
+    description: "My personal portfolio website showcasing projects and skills, built with Next.js.",
     image: "/projects/Portfolio/Portfolio.png",
     tags: ["Next.js", "Tailwind CSS"],
     github: "https://github.com/Bas77/portfolio-app",
@@ -134,7 +134,7 @@ export default function ProjectsPage() {
   return (
     <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
     <div id='lenis-content' className="will-change-transform"></div>
-    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent ">
+    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">Projects</h1>
         <p className="text-gray-400 mb-12 max-w-2xl">
@@ -188,7 +188,7 @@ function ProjectCard({ project }: { project: Project }) {
        <div className="relative h-64 overflow-hidden">
         {project.type === "mobile" ? (
           <div className="w-full h-full flex justify-center items-center bg-gradient-to-b from-zinc-900 to-black">
-            <div className="relative w-[140px] h-[280px]">
+            <div className="relative w-[140px] h-[280px] group-hover:scale-105 transition-transform duration-500">
               {/* Phone Frame */}
               <div className="absolute inset-0 rounded-[24px] border-[6px] border-zinc-800 bg-black z-10"></div>
               {/* Screen Content */}
@@ -295,8 +295,8 @@ function getTagColor(tag: string, opacity = 1) {
       "Next.js": `rgba(0, 0, 0, ${opacity})`,
       "Three.js": `rgba(239, 68, 68, ${opacity})`,
       "SASS CSS": `rgba(232,116,156, ${opacity})`,
-      "CRUD": `rgba(150, 114, 128, ${opacity})`,         // Neutral gray-blue, representing core logic
-      "Supabase": `rgba(16, 185, 129, ${opacity})`,      // Greenish teal, matching Supabase branding
+      "CRUD": `rgba(150, 114, 128, ${opacity})`,        
+      "Supabase": `rgba(16, 185, 129, ${opacity})`, 
       "Full-stack": `rgba(99, 102, 241, ${opacity})`, 
   }[tag] || `rgba(107, 114, 128, ${opacity})`
 }
