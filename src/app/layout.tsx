@@ -8,6 +8,7 @@ import { SettingsButton } from "./component/settings-button"
 import CursorSpotlight from "./component/cursor-spotlight"
 import { SettingsSidebar } from "./component/settings-sidebar"
 import PreloadModels from "./component/preloadModels"
+import Head  from "next/head"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,6 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="overflow-x-hidden">
+        <Head>
+          <meta name="google-site-verification" content="abc123..." />
+          <meta name="description" content="Portfolio of Dominikus Sebastian Ramli, a developer skilled in Next.js, React, and Tailwind CSS." />
+          <meta name="keywords" content="Dominikus Sebastian Ramli, software developer, Next.js, React, portfolio" />
+          <meta property="og:title" content="Dominikus Sebastian Ramli Portfolio" />
+          <meta property="og:description" content="Explore my projects and skills." />
+          <meta property="og:image" content="/profile.jpg" />
+        </Head>
         <SettingsProvider>
           <CursorSpotlight />
           <PreloadModels />
