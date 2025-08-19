@@ -131,17 +131,18 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Spam prevention logic
-    const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
-    const currentTime = new Date().getTime();
-    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+    if (typeof window !== 'undefined') {
+        const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
+        const currentTime = new Date().getTime();
+        const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
 
-    if (lastMessageTimestamp) {
-        const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
-        if (timeSinceLastMessage < oneHour) {
-            const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
-            setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
-            return; // Stop the submission
+        if (lastMessageTimestamp) {
+            const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
+            if (timeSinceLastMessage < oneHour) {
+                const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
+                setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
+                return; // Stop the submission
+            }
         }
     }
 
@@ -170,7 +171,9 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
       });
       
       // On success, save the current timestamp to localStorage
-      localStorage.setItem('lastPublicMessageTimestamp', currentTime.toString());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastPublicMessageTimestamp', new Date().getTime().toString());
+      }
 
       setSubmitStatus({ type: 'success', message: 'Message posted successfully!' });
       setName('');
