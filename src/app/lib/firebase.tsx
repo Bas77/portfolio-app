@@ -1,6 +1,4 @@
-// lib/firebase.ts
-
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
@@ -14,8 +12,14 @@ const firebaseConfig = {
   measurementId: "G-7P4Y1CZDBV",
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Initialize Firebase safely for both server and client
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-export { app, analytics, db };
+// Conditionally initialize Analytics only on the client-side
+let analytics;
+if (typeof window !== 'undefined') {
+  analytics = getAnalytics(app);
+}
+
+export { app, db, analytics };
