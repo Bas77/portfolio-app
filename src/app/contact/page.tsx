@@ -1,46 +1,37 @@
 'use client'
-import { useState, FormEvent, JSX } from 'react';
-// import Head from 'next/head';
+import { useState, FormEvent, JSX, useEffect } from 'react';
 import { Mail, Phone, MapPin, MoreHorizontal } from 'lucide-react';
+// Import your Firebase config
+import { db } from '../lib/firebase'; 
+import { 
+    collection, 
+    onSnapshot, 
+    orderBy, 
+    query, 
+    addDoc, 
+    serverTimestamp,
+    Timestamp
+} from 'firebase/firestore';
 
-// Mock data for public messages
-interface MockPublicMessage {
+// Interface for messages fetched from Firestore
+interface PublicMessage {
   id: string;
   name: string;
   message: string;
-  timestamp: string;
-  avatarColor: string;
-  avatarInitial: string;
+  timestamp: Timestamp;
+  avatarColor?: string;
+  avatarInitial?: string;
 }
 
-const mockMessages: MockPublicMessage[] = [
-  {
-    id: "1",
-    name: "Marcello Alvisnkie",
-    message: "I have a crush on Sebas",
-    timestamp: "2 hours ago",
-    avatarColor: "#3B82F6", // blue-500
-    avatarInitial: "MA"
-  },
-  {
-    id: "2",
-    name: "Howard Marco Tantra",
-    message: "Gintoro FX",
-    timestamp: "5 hours ago",
-    avatarColor: "#EC4899", // pink-500
-    avatarInitial: "HM"
-  },
-  {
-    id: "3",
-    name: "Owen Siau",
-    message: "ipsum lorem cok",
-    timestamp: "1 day ago",
-    avatarColor: "#10B981", // emerald-500
-    avatarInitial: "OS"
-  }
-];
-
-
+// Helper function to generate a random color for avatars
+const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
 
 const ContactInfoItem = ({ icon, title, value, href }: { icon: JSX.Element, title: string, value: string, href?: string }) => (
   <div className="flex items-start space-x-3">
@@ -58,24 +49,39 @@ const ContactInfoItem = ({ icon, title, value, href }: { icon: JSX.Element, titl
 
 const PrivateMessageForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false); // Kept for visual feedback
-  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null); // Kept for visual feedback
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+        setSubmitStatus({ type: 'error', message: 'Please fill out all fields.' });
+        return;
+    }
     setIsSubmitting(true);
     setSubmitStatus(null);
-    console.log("Private Message Data (UI Only):", formData); // Log data
-    // Simulate submission for UX
-    setTimeout(() => {
-      setSubmitStatus({ type: 'success', message: 'Message submitted (UI only)!' });
+    
+    try {
+      await addDoc(collection(db, "private"), {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        timestamp: serverTimestamp(),
+      });
+      
+      setSubmitStatus({ type: 'success', message: 'Message sent successfully!' });
       setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form
+    } catch (error) {
+      console.error("Error sending private message: ", error);
+      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -114,38 +120,74 @@ const PrivateMessageForm = () => {
   );
 };
 
-const PublicMessageForm = () => {
-  // State for visual feedback only
+const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Spam prevention logic
+    const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
+    const currentTime = new Date().getTime();
+    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+
+    if (lastMessageTimestamp) {
+        const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
+        if (timeSinceLastMessage < oneHour) {
+            const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
+            setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
+            return; // Stop the submission
+        }
+    }
+
     if (!message.trim() || !name.trim()) {
       setSubmitStatus({ type: 'error', message: 'Name and message cannot be empty.' });
       return;
     }
     setIsSubmitting(true);
     setSubmitStatus(null);
-    console.log("Public Message Data (UI Only):", { name, email, message });
-    // Simulate submission for UX
-    setTimeout(() => {
-      setSubmitStatus({ type: 'success', message: 'Message posted (UI only)!' });
+    if (!message.trim() || !name.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Name and message cannot be empty.' });
+      return;
+    }
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    try {
+      // Add a new document with a generated id.
+      await addDoc(collection(db, "public"), {
+        name: name,
+        email: email,
+        message: message,
+        timestamp: serverTimestamp(),
+        avatarColor: getRandomColor(),
+        avatarInitial: name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+      });
+      
+      // On success, save the current timestamp to localStorage
+      localStorage.setItem('lastPublicMessageTimestamp', currentTime.toString());
+      
+      setSubmitStatus({ type: 'success', message: 'Message posted successfully!' });
       setName('');
       setEmail('');
       setMessage('');
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      setSubmitStatus({ type: 'error', message: 'Failed to post message.' });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
   
   return (
     <div className="p-6 sm:p-8 rounded-lg shadow-xl">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-white">Public Message Board</h2>
-        <span className="bg-sky-500 text-xs text-white px-2 py-1 rounded-full">{mockMessages.length} messages</span>
+        <span className="bg-sky-500 text-xs text-white px-2 py-1 rounded-full">{messageCount} messages</span>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -175,66 +217,116 @@ const PublicMessageForm = () => {
   );
 };
 
-const RecentMessages = () => {
-  const [sortOrder, setSortOrder] = useState<'Newest' | 'Oldest'>('Newest');
-  
-  // Sort mock messages based on sortOrder (simplified as mock data doesn't have real timestamps)
-  const displayedMessages = [...mockMessages].sort((a, b) => {
-    if (sortOrder === 'Oldest') {
-      // For mock data, we can assume IDs are somewhat sequential or just reverse
-      return parseInt(a.id) - parseInt(b.id); 
-    }
-    return parseInt(b.id) - parseInt(a.id); // Newest first
+const RecentMessages = ({ messages }: { messages: PublicMessage[] }) => {
+  const [sortOrder, setSortOrder] = useState<"Newest" | "Oldest">("Newest");
+  const [showAll, setShowAll] = useState(false); // State for pagination
+  const displayLimit = 5;
+
+  // Helper function to format Firestore Timestamps
+  const formatTimeAgo = (timestamp: Timestamp | undefined) => {
+    if (!timestamp) return 'Just now';
+    const date = timestamp.toDate();
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    return Math.floor(seconds) < 5 ? "Just now" : Math.floor(seconds) + " seconds ago";
+  };
+
+  const sortedMessages = [...messages].sort((a, b) => {
+    const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
+    const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
+    return sortOrder === "Oldest" ? timeA - timeB : timeB - timeA;
   });
+  
+  const displayedMessages = showAll ? sortedMessages : sortedMessages.slice(0, displayLimit);
 
   return (
-    <div className=" p-6 sm:p-8 rounded-lg shadow-xl mt-8">
+    <div className="p-6 sm:p-8 rounded-lg shadow-xl mt-8">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-white">Recent Messages</h2>
         <div className="flex space-x-2 text-sm">
-          <button onClick={() => setSortOrder('Newest')} className={`px-3 py-1 rounded-md ${sortOrder === 'Newest' ? 'bg-sky-500 text-white' : 'text-slate-400 hover:bg-slate-700'}`}>Newest</button>
-          <button onClick={() => setSortOrder('Oldest')} className={`px-3 py-1 rounded-md ${sortOrder === 'Oldest' ? 'bg-sky-500 text-white' : 'text-slate-400 hover:bg-slate-700'}`}>Oldest</button>
+          <button
+            onClick={() => setSortOrder("Newest")}
+            className={`px-3 py-1 rounded-md ${sortOrder === "Newest" ? "bg-sky-500 text-white" : "text-slate-400 hover:bg-slate-700"}`}
+          >
+            Newest
+          </button>
+          <button
+            onClick={() => setSortOrder("Oldest")}
+            className={`px-3 py-1 rounded-md ${sortOrder === "Oldest" ? "bg-sky-500 text-white" : "text-slate-400 hover:bg-slate-700"}`}
+          >
+            Oldest
+          </button>
         </div>
       </div>
-      {displayedMessages.length === 0 ? (
-        <p className="text-slate-400 text-center py-4">No public messages yet.</p>
+      {messages.length === 0 ? (
+        <p className="text-slate-400 text-center py-4">No public messages yet. Be the first to post!</p>
       ) : (
         <div className="space-y-6">
           {displayedMessages.map((msg) => (
             <div key={msg.id} className="bg-slate-700 p-4 rounded-lg shadow-md">
               <div className="flex items-start space-x-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg`} style={{ backgroundColor: msg.avatarColor }}>
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg"
+                  style={{ backgroundColor: msg.avatarColor }}
+                >
                   {msg.avatarInitial}
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
                     <h4 className="font-semibold text-sky-400">{msg.name}</h4>
-                    <span className="text-xs text-slate-500">#{msg.id}</span>
+                    <span className="text-xs text-slate-500">#{msg.id.substring(0, 4)}</span>
                   </div>
-                  <p className="text-xs text-slate-500 mb-1">{msg.timestamp}</p>
+                  <p className="text-xs text-slate-500 mb-1">{formatTimeAgo(msg.timestamp)}</p>
                   <p className="text-slate-300 text-sm leading-relaxed break-words">{msg.message}</p>
-                  {/* Voting and edit/delete buttons removed for UI only version */}
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
-      {displayedMessages.length > 0 && (
-        <div className="mt-8 text-center">
-          <button className="bg-slate-700 hover:bg-slate-600 text-sky-400 font-semibold py-2 px-6 rounded-md transition-colors">
+      <div className="mt-8 text-center">
+        {!showAll && messages.length > displayLimit && (
+          <button onClick={() => setShowAll(true)} className="bg-slate-700 hover:bg-slate-600 text-sky-400 font-semibold py-2 px-6 rounded-md transition-colors cursor-pointer">
             View All Messages
           </button>
-        </div>
-      )}
+        )}
+        {showAll && messages.length > displayLimit && (
+           <button onClick={() => setShowAll(false)} className="bg-slate-700 hover:bg-slate-600 text-sky-400 font-semibold py-2 px-6 rounded-md transition-colors cursor-pointer">
+            Show Less
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
-
-
 export default function ContactPage() {
   const [activeSection, setActiveSection] = useState<'private' | 'public'>('private');
+  const [messages, setMessages] = useState<PublicMessage[]>([]);
+
+  // Effect to listen to Firestore changes
+  useEffect(() => {
+    const q = query(collection(db, "public"), orderBy("timestamp", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messagesData: PublicMessage[] = [];
+      querySnapshot.forEach((doc) => {
+        messagesData.push({ ...doc.data(), id: doc.id } as PublicMessage);
+      });
+      setMessages(messagesData);
+    });
+
+    // Cleanup subscription on component unmount
+    return () => unsubscribe();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
@@ -243,7 +335,7 @@ export default function ContactPage() {
           <header className="text-center mb-12 sm:mb-16">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">Get In Touch</h1>
             <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
-              Send me a private message or view the public message board (UI demonstration).
+              Send me a private message or leave a public message on the board.
             </p>
           </header>
 
@@ -263,7 +355,6 @@ export default function ContactPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Contact Information (Left) */}
             <div className="lg:col-span-5 space-y-8">
               <div className="p-6 sm:p-8 rounded-lg shadow-xl">
                 <h2 className="text-2xl font-semibold text-white mb-6">Contact Information</h2>
@@ -275,14 +366,13 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Message Form (Right) */}
             <div className="lg:col-span-7 space-y-8">
               {activeSection === 'private' ? (
                 <PrivateMessageForm />
               ) : (
                 <>
-                  <PublicMessageForm />
-                  <RecentMessages />
+                  <PublicMessageForm messageCount={messages.length} />
+                  <RecentMessages messages={messages} />
                 </>
               )}
             </div>
