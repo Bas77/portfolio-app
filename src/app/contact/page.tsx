@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent, JSX, useEffect } from 'react';
+import { useState, FormEvent, JSX, useEffect, useRef } from 'react';
 import { Mail, Phone, MapPin, MoreHorizontal } from 'lucide-react';
 // Import your Firebase config
 import { db } from '../lib/firebase'; 
@@ -12,6 +12,7 @@ import {
     serverTimestamp,
     Timestamp
 } from 'firebase/firestore';
+import { useSettings } from '../context/settings-context';
 
 // Interface for messages fetched from Firestore
 interface PublicMessage {
@@ -170,7 +171,7 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
       
       // On success, save the current timestamp to localStorage
       localStorage.setItem('lastPublicMessageTimestamp', currentTime.toString());
-      
+
       setSubmitStatus({ type: 'success', message: 'Message posted successfully!' });
       setName('');
       setEmail('');
@@ -328,7 +329,78 @@ export default function ContactPage() {
     return () => unsubscribe();
   }, []); // Empty dependency array means this effect runs once on mount
 
+    // Lenis stuff
+    const {isLenisEnabled} = useSettings()
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lenisRef = useRef<any>(null)
+    const animationFrameRef = useRef<number | null>(null)
+  
+    useEffect(() => {
+      let raf: (time: number) => void;
+  
+      const initLenis = async () => {
+        const Lenis = (await import("lenis")).default;
+  
+        const wrapper = document.getElementById("lenis-wrapper");
+        const content = document.getElementById("lenis-content");
+  
+        // We probably don't need this
+        if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
+          console.warn("Lenis wrapper or content not found.");
+          return;
+        }
+  
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          wrapper,
+          content,
+        });
+  
+        lenisRef.current = lenis;
+  
+        // RAF with conditional enable check
+        raf = (time: number) => {
+          if (isLenisEnabled && lenisRef.current) {
+            lenisRef.current.raf(time);
+          }
+          animationFrameRef.current = requestAnimationFrame(raf);
+        };
+        animationFrameRef.current = requestAnimationFrame(raf);
+  
+  
+        // Cleanup function
+        return () => {
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+          }
+          lenis.destroy?.();
+        };
+      };
+  
+      if (isLenisEnabled) {
+        const cleanupPromise = initLenis();
+        return () => {
+          cleanupPromise.then((cleanup) => {
+            if (typeof cleanup === "function") cleanup();
+          });
+        };
+      } else {
+        // Disable Lenis manually if already running
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
+        }
+        if (lenisRef.current?.destroy) {
+          lenisRef.current.destroy();
+          lenisRef.current = null;
+        }
+      }
+    }, [isLenisEnabled]);
   return (
+    <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
+    <div id='lenis-content' className="will-change-transform">
     <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
       <div className="min-h-screen text-slate-100 font-sans">
         <main className="container mx-auto px-4 py-12 sm:py-16" id="contact">
@@ -379,6 +451,8 @@ export default function ContactPage() {
           </div>
         </main>
       </div>
+    </div>
+    </div>
     </div>
   );
 }
