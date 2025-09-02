@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import Link from "next/link"
 
 export function SettingsSidebar() {
-  const { isSidebarOpen, toggleSidebar, isSpotlightEnabled, toggleSpotlight, isLenisEnabled, toggleLenis } = useSettings()
+  const { isSidebarOpen, toggleSidebar, isSpotlightEnabled, toggleSpotlight, isLenisEnabled, toggleLenis, isBackgroundEnabled, toggleBackground } = useSettings()
 
   // Close sidebar on escape key
   useEffect(() => {
@@ -94,6 +94,43 @@ export function SettingsSidebar() {
 
               <p className="text-xs text-gray-500">
                 Enables a subtle glow effect that follows your cursor on the background.
+              </p>
+            </div>
+
+          </div>
+          
+          <div className="space-y-6 mt-10">
+            <div className="space-y-4">
+
+              <div className="flex items-center justify-between">
+                <label htmlFor="background-toggle" className="text-gray-300 cursor-pointer">
+                  Animated Background
+                </label>
+                <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full">
+                  <input
+                    type="checkbox"
+                    id="background-toggle"
+                    className="absolute w-0 h-0 opacity-0"
+                    checked={isBackgroundEnabled}
+                    onChange={toggleBackground}
+                  />
+                  <label
+                    htmlFor="background-toggle"
+                    className={`absolute inset-0 cursor-pointer rounded-full transition-colors duration-300 ${
+                      isBackgroundEnabled ? "bg-blue-600" : "bg-zinc-700"
+                    }`}
+                  >
+                    <span
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                        isBackgroundEnabled ? "transform translate-x-6" : ""
+                      }`}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-500">
+                Enables animated particles on the background.
               </p>
             </div>
 

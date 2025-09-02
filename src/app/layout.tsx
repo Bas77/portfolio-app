@@ -8,6 +8,7 @@ import { SettingsButton } from "./component/settings-button"
 import CursorSpotlight from "./component/cursor-spotlight"
 import { SettingsSidebar } from "./component/settings-sidebar"
 import PreloadModels from "./component/preloadModels"
+import AnimatedBackground from "./component/animated-background";
 import Head  from "next/head"
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
           <meta property="og:image" content="/profile.jpg" />
         </Head>
         <SettingsProvider>
+          <AnimatedBackground />
           <CursorSpotlight />
           <PreloadModels />
           <Navbar />

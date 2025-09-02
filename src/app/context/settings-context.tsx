@@ -10,6 +10,8 @@ type SettingsContextType = {
   toggleSidebar: () => void
   isLenisEnabled: boolean
   toggleLenis: () => void
+  isBackgroundEnabled: boolean
+  toggleBackground: () => void
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined)
@@ -17,6 +19,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(true)
   const [isLenisEnabled, setIsLenisEnabled] = useState(true)
+  const [isBackgroundEnabled, setIsBackgroundEnabled] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -32,7 +35,14 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev)
   }
-
+  const toggleBackground = () => {
+    setIsBackgroundEnabled((prev) => !prev)
+    console.log("Background:", isBackgroundEnabled )
+    // Save preference to localStorage only on client
+    if (typeof window !== "undefined") {
+      localStorage.setItem("backgroundEnabled", (!isBackgroundEnabled).toString())
+    }
+  }
   const toggleLenis = () => {
     setIsLenisEnabled((prev) => !prev)
     console.log("Lenis:", isLenisEnabled )
@@ -52,6 +62,12 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       const savedSpotlight = localStorage.getItem("spotlightEnabled")
       if (savedSpotlight !== null) {
         setIsSpotlightEnabled(savedSpotlight === "true")
+      }
+
+      // Load background preference
+      const savedBackground = localStorage.getItem("backgroundEnabled")
+      if (savedBackground !== null) {
+        setIsBackgroundEnabled(savedBackground === "true")
       }
 
       // Load lenis preference
@@ -78,6 +94,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     toggleSidebar,
     isLenisEnabled: mounted ? isLenisEnabled : false,
     toggleLenis,
+    isBackgroundEnabled: mounted ? isBackgroundEnabled : true,
+    toggleBackground
   }
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>
