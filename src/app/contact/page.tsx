@@ -131,46 +131,79 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (typeof window !== 'undefined') {
-        const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
-        const currentTime = new Date().getTime();
-        const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+    // if (typeof window !== 'undefined') {
+    //     const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
+    //     const currentTime = new Date().getTime();
+    //     const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
 
-        if (lastMessageTimestamp) {
-            const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
-            if (timeSinceLastMessage < oneHour) {
-                const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
-                setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
-                return; // Stop the submission
-            }
-        }
-    }
+    //     if (lastMessageTimestamp) {
+    //         const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
+    //         if (timeSinceLastMessage < oneHour) {
+    //             const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
+    //             setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
+    //             return; // Stop the submission
+    //         }
+    //     }
+    // }
 
     if (!message.trim() || !name.trim()) {
       setSubmitStatus({ type: 'error', message: 'Name and message cannot be empty.' });
       return;
     }
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    if (!message.trim() || !name.trim()) {
-      setSubmitStatus({ type: 'error', message: 'Name and message cannot be empty.' });
+
+    // Moderate content using Perspective API
+    const perspectiveApiKey = process.env.NEXT_PUBLIC_PERSPECTIVE_API_KEY;
+    if (!perspectiveApiKey) {
+      setSubmitStatus({ type: 'error', message: 'Perspective API key is missing. Contact the administrator.' });
       return;
     }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
+
     try {
-      // Add a new document with a generated id.
+      const response = await fetch('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=' + perspectiveApiKey, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comment: { text: `${name}\n${message}` }, // Combine name and message for moderation
+          requestedAttributes: {
+            TOXICITY: {},
+            SEVERE_TOXICITY: {},
+            INSULT: {},
+            THREAT: {},
+          },
+          languages: ['en'], // Specify language (adjust if multilingual needed)
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'Moderation API error');
+      }
+
+      const data = await response.json();
+      const scores = data.attributeScores || {};
+      const isFlagged = Object.entries(scores).some(([key, value]) => value.summaryScore.value > 0.5); // Threshold of 0.5
+      if (isFlagged) {
+        const violations = Object.entries(scores)
+          .filter(([_, value]) => value.summaryScore.value > 0.5)
+          .map(([category]) => category.toLowerCase())
+          .join(', ');
+        setSubmitStatus({ type: 'error', message: `Content flagged for: ${violations}. Please revise your input.` });
+        return;
+      }
+
+      // If content passes moderation, proceed with Firestore submission
       await addDoc(collection(db, "public"), {
-        name: name,
-        email: email,
-        message: message,
+        name,
+        email,
+        message,
         timestamp: serverTimestamp(),
         avatarColor: getRandomColor(),
         avatarInitial: name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
       });
-      
-      // On success, save the current timestamp to localStorage
+
       if (typeof window !== 'undefined') {
         localStorage.setItem('lastPublicMessageTimestamp', new Date().getTime().toString());
       }
@@ -180,8 +213,8 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
       setEmail('');
       setMessage('');
     } catch (error) {
-      console.error("Error adding document: ", error);
-      setSubmitStatus({ type: 'error', message: 'Failed to post message.' });
+      console.error("Error during moderation or submission: ", error);
+      setSubmitStatus({ type: 'error', message: 'Failed to post message due to moderation or server error.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -431,7 +464,7 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-5 space-y-8">
-              <div className="p-6 sm:p-8 rounded-lg shadow-xl">
+              <div className="p-6 sm:p-8 rounded-lg">
                 <h2 className="text-2xl font-semibold text-white mb-6">Contact Information</h2>
                 <div className="space-y-6">
                   <ContactInfoItem icon={<Mail size={20} />} title="Email" value="sebastianramli77@gmail.com" href="mailto:sebastianramli77@gmail.com" />
