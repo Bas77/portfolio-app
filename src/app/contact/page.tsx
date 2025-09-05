@@ -23,7 +23,18 @@ interface PublicMessage {
   avatarColor?: string;
   avatarInitial?: string;
 }
+type SummaryScore = {
+  value: number;
+  type: string;
+};
 
+type AttributeScore = {
+  summaryScore: SummaryScore;
+};
+
+type PerspectiveResponse = {
+  attributeScores: Record<string, AttributeScore>;
+};
 // Helper function to generate a random color for avatars
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -182,12 +193,12 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
         throw new Error(errorData.error?.message || 'Moderation API error');
       }
 
-      const data = await response.json();
-      const scores = data.attributeScores || {};
-      const isFlagged = Object.entries(scores).some(([key, value]) => value.summaryScore.value > 0.5); // Threshold of 0.5
+      const data: PerspectiveResponse = await response.json();
+const scores = data.attributeScores;
+      const isFlagged = Object.entries(scores).some(([, value]) => value.summaryScore.value > 0.5); // Threshold of 0.5
       if (isFlagged) {
         const violations = Object.entries(scores)
-          .filter(([_, value]) => value.summaryScore.value > 0.5)
+          .filter(([, value]) => value.summaryScore.value > 0.5)
           .map(([category]) => category.toLowerCase())
           .join(', ');
         setSubmitStatus({ type: 'error', message: `Content flagged for: ${violations}. Please revise your input.` });
