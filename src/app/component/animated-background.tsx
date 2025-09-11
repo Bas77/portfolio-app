@@ -10,20 +10,23 @@ import { useSettings } from "../context/settings-context";
 export default function AnimatedBackground() {
   const { isBackgroundEnabled } = useSettings();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Ensure client-side mounting
+  // Ensure client-side mounting and detect mobile device
   useEffect(() => {
     setMounted(true);
+    // Detect mobile device using user agent or touch capability
+    const isMobileDevice =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.matchMedia("(max-width: 768px)").matches ||
+      "ontouchstart" in window;
+    setIsMobile(isMobileDevice);
+    console.log("Device detected:", isMobileDevice ? "Mobile" : "Desktop");
   }, []);
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
-
-  // Debug hover events
-  // const particlesLoaded = useCallback(() => {
-  //   console.log("Particles loaded");
-  // }, []);
 
   // Only render when mounted and isBackgroundEnabled is true
   if (!mounted || !isBackgroundEnabled) return null;
@@ -42,45 +45,47 @@ export default function AnimatedBackground() {
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* Subtle gray particles with higher z-index for interactivity */}
+      {/* Subtle gray particles */}
       <Particles
         id="tsparticles"
         init={particlesInit}
-        // loaded={particlesLoaded}
         className="absolute w-full h-full pointer-events-auto z-[-9]"
         options={{
           fullScreen: { enable: false },
           background: { color: "transparent" },
           fpsLimit: 60,
           particles: {
-            number: { value: 50, density: { enable: true, value_area: 800 } },
-            color: { value: "#4B4B4B" }, // Subtle gray
+            number: { value: isMobile ? 100 : 50, density: { enable: true, value_area: 800 } }, // Fewer particles on mobile
+            color: { value: "#4B4B4B" },
             links: {
               enable: true,
               color: "#4B4B4B",
               distance: 150,
-              opacity: 0.2, // Increased opacity for visibility
-              width: 1, // Slightly thicker lines
+              opacity: isMobile ? 0.5 : 0.2, // Stronger opacity on mobile
+              width: isMobile ? 1.5 : 1, // Thicker lines on mobile
             },
             move: {
               enable: true,
-              speed: 0.5, // Slightly faster for better responsiveness
+              speed: 0.5,
               outModes: { default: "out" },
             },
-            size: { value: { min: 0.5, max: 2 } }, // Slightly larger particles
-            opacity: { value: 0.3 }, // Slightly more visible
+            size: { value: { min: 0.5, max: 2 } },
+            opacity: { value: isMobile ? 0.5 : 0.3 }, // Stronger particle opacity on mobile
           },
           interactivity: {
-            detectsOn: "window", // Changed to window for better event detection
+            detectsOn: "window",
             events: {
-              onHover: { enable: true, mode: "grab" },
-              onClick: { enable: false },
+              onHover: { enable: !isMobile, mode: "grab" }, // Grab mode for desktop only
+              onClick: { enable: isMobile, mode: "repulse" }, // Push mode for mobile
               resize: { enable: true, delay: 0.5 },
             },
             modes: {
               grab: {
-                distance: 200, // Increased distance for stronger effect
-                links: { opacity: 0.5 }, // Higher opacity for grab lines
+                distance: 200,
+                links: { opacity: isMobile ? 0.8 : 0.5 }, // Stronger grab links on mobile (if used)
+              },
+              push: {
+                quantity: 4, // Add 4 particles on tap
               },
             },
           },
