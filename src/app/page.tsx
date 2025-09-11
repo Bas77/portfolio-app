@@ -355,7 +355,7 @@ export default function Home() {
                       </div>
                       <p className="text-gray-400 text-sm md:text-base mb-2">Deputy Head of IT</p>
                       <p className="text-gray-300 text-sm md:text-base">
-                        Maintained the club's digital presence by developing the website and managing BINUS Chess Club's LinkedIn.
+                        Maintained the club&apos;s digital presence by developing the website and managing BINUS Chess Club&apos;s LinkedIn.
                       </p>
                       <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
