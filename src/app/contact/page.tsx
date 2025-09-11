@@ -142,20 +142,20 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // if (typeof window !== 'undefined') {
-    //     const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
-    //     const currentTime = new Date().getTime();
-    //     const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+    if (typeof window !== 'undefined') {
+        const lastMessageTimestamp = localStorage.getItem('lastPublicMessageTimestamp');
+        const currentTime = new Date().getTime();
+        const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
 
-    //     if (lastMessageTimestamp) {
-    //         const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
-    //         if (timeSinceLastMessage < oneHour) {
-    //             const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
-    //             setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
-    //             return; // Stop the submission
-    //         }
-    //     }
-    // }
+        if (lastMessageTimestamp) {
+            const timeSinceLastMessage = currentTime - parseInt(lastMessageTimestamp, 10);
+            if (timeSinceLastMessage < oneHour) {
+                const timeLeft = Math.ceil((oneHour - timeSinceLastMessage) / (60 * 1000));
+                setSubmitStatus({ type: 'error', message: `You can post again in ${timeLeft} minutes.` });
+                return; // Stop the submission
+            }
+        }
+    }
 
     if (!message.trim() || !name.trim()) {
       setSubmitStatus({ type: 'error', message: 'Name and message cannot be empty.' });

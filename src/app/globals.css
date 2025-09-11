@@ -68,6 +68,26 @@ body {
   background: #444444;
 }
 
+/* Reset scrollbar styles for mobile devices */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar or set to default */
+    display: none; /* Optional: completely hide scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Reset to default */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent; /* Reset to default */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: transparent; /* Reset to default */
+  }
+}
+
 /* Fix for clickable elements */
 a,
 button

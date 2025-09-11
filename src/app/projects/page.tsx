@@ -5,73 +5,10 @@ import { Github, ExternalLink, Smartphone, Globe } from 'lucide-react'
 import { Key, useEffect, useRef } from "react"
 import { useSettings } from "../context/settings-context"
 import { motion } from "framer-motion"
-
-// Project data
-interface Project{
-    id: string,
-    name: string,
-    description: string,
-    image: string,
-    tags: string[],
-    github: string,
-    liveUrl: string
-    type: string
-}
-const projects = [
-  {
-    id: "pharmaplan",
-    name: "PharmaPlan",
-    description: "A comprehensive health solution platform providing medical services and pharmaceutical products online.",
-    image: "/projects/PharmaPlan/PharmaPlan.png",
-    tags: ["Front-end", "React", "SASS CSS"],
-    github: "https://github.com/Bas77/pharmaplan",
-    liveUrl: "https://pharmaplan.vercel.app/",
-    type: "web"
-  },
-  {
-    id: "theknowledgecache",
-    name: "The Knowledge Cache",
-    description: "A flashcard learning app with full CRUD functionality powered by Supabase. Users can create, edit, delete, and review personalized flashcard sets.",
-    image: "/projects/KnowledgeCache/KnowledgeCache.jpg",
-    tags: ["Full-stack", "React Native", "Supabase", "CRUD"],
-    github: "https://github.com/Bas77/the-knowledge-cache",
-    liveUrl: "https://expo.dev/accounts/bas77/projects/the-knowledge-cache/builds/8f6d938b-adbc-4294-a97f-3e7e93fe275f",
-    type: "mobile"
-  },
-  {
-    id: "portfolio",
-    name: "Personal Portfolio",
-    description: "My personal portfolio website showcasing projects and skills, built with Next.js.",
-    image: "/projects/Portfolio/Portfolio.png",
-    tags: ["Next.js", "Tailwind CSS"],
-    github: "https://github.com/Bas77/portfolio-app",
-    liveUrl: "#",
-    type: "web"
-  },
-  {
-    id: "threejstest",
-    name: "Text Particle Animation",
-    description: "A website where I test the functionality of Three.js. These particles respond to user input like mouse movement or clicking.",
-    image: "/projects/TextParticle/TextParticle.png",
-    tags: ["Three.js"],
-    github: "https://github.com/Bas77/threejs-text-particle",
-    liveUrl: "https://bas77-threejs-test.vercel.app",
-    type: "web"
-  },
-  {
-    id: "binuschessclub",
-    name: "BINUS Chess Club Website",
-    description: "A modern, responsive web application developed for Bina Nusantara University’s collegiate chess club.",
-    image: "/projects/BCC/BCC.png",
-    tags: ["Front-end", "React", "Tailwind CSS"],
-    github: "https://github.com/mzf11125/binus-chess-knight-club",
-    liveUrl: "https://www.binuschess.club/",
-    type: "web"
-  },
-]
+import { Project, projectsData, getTagColor, MobileProject, WebProject } from "../lib/data/projectsData"
 
 export default function ProjectsPage() {
-  const {isLenisEnabled} = useSettings()
+  const { isLenisEnabled } = useSettings()
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const lenisRef = useRef<any>(null)
@@ -86,7 +23,6 @@ export default function ProjectsPage() {
       const wrapper = document.getElementById("lenis-wrapper");
       const content = document.getElementById("lenis-content");
 
-      // We probably don't need this
       if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
         console.warn("Lenis wrapper or content not found.");
         return;
@@ -101,7 +37,6 @@ export default function ProjectsPage() {
 
       lenisRef.current = lenis;
 
-      // RAF with conditional enable check
       raf = (time: number) => {
         if (isLenisEnabled && lenisRef.current) {
           lenisRef.current.raf(time);
@@ -110,8 +45,6 @@ export default function ProjectsPage() {
       };
       animationFrameRef.current = requestAnimationFrame(raf);
 
-
-      // Cleanup function
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
@@ -128,7 +61,6 @@ export default function ProjectsPage() {
         });
       };
     } else {
-      // Disable Lenis manually if already running
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
@@ -140,44 +72,36 @@ export default function ProjectsPage() {
     }
   }, [isLenisEnabled]);
 
-    
   return (
     <div id='lenis-wrapper' className="h-screen w-screen overflow-y-auto overflow-x-hidden">
-    <div id='lenis-content' className="will-change-transform"></div>
-    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
-      <div className="max-w-6xl mx-auto mt-13 sm:mt-17">
-        <header className="text-center mb-12 sm:mb-16">
+      <div id='lenis-content' className="will-change-transform"></div>
+      <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 md:px-8 lg:px-16 caret-transparent">
+        <div className="max-w-6xl mx-auto mt-13 sm:mt-17">
+          <header className="text-center mb-12 sm:mb-16">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">Projects</h1>
             <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
               A collection of my recent work and personal projects. Each project represents different skills and technologies I&apos;ve worked with.
             </p>
           </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {Object.values(projectsData).map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
         </div>
-      </div>
-      <motion.footer
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mt-20 py-10 border-t border-zinc-800 text-center text-zinc-500 text-sm"
-      >
-        <p>You&apos;ve reached the end</p>
-        <p className="mt-2">Scroll back up to explore more projects!</p>
-        {/* <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="mt-4 px-4 py-2 text-sm text-white bg-zinc-800 rounded hover:bg-zinc-700 transition"
+        <motion.footer
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-20 py-10 border-t border-zinc-800 text-center text-zinc-500 text-sm"
         >
-           Back to Top ↑
-        </button> */}
-      </motion.footer>
+          <p>You&apos;ve reached the end</p>
+          <p className="mt-2">Scroll back up to explore more projects!</p>
+        </motion.footer>
+      </div>
     </div>
-    </div>
-    
   )
 }
 
@@ -197,7 +121,7 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
       
       {/* Project Image */}
-       <div className="relative h-64 overflow-hidden">
+      <div className="relative h-64 overflow-hidden">
         {project.type === "mobile" ? (
           <div className="w-full h-full flex justify-center items-center bg-gradient-to-b from-zinc-900 to-black">
             <div className="relative w-[140px] h-[280px] group-hover:scale-105 transition-transform duration-500">
@@ -224,7 +148,7 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Project Details */}
       <div className="p-5" >
         <div className="flex justify-center">
-          <p className="text-gray-300 mb-4 ">{project.description}</p>
+          <p className="text-gray-300 mb-4">{project.description}</p>
         </div>
         <div className="flex-grow" />
         {/* Tags */}
@@ -244,26 +168,50 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
         
         {/* Links */}
-        <div className="flex justify-between  items-center">
-        <div className="flex gap-4">
-          <Link 
-            href={project.github} 
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github size={18} />
-            <span>Code</span>
-          </Link>
-          <Link 
-            href={project.liveUrl} 
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ExternalLink size={18} />
-            <span>Live Demo</span>
-          </Link>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-4">
+            <Link 
+              href={project.github} 
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github size={18} />
+              <span>Code</span>
+            </Link>
+            {project.type === "mobile" ? (
+              (project as MobileProject).apkLink ? (
+                <Link 
+                  href={(project as MobileProject).apkLink!} 
+                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink size={18} />
+                  <span>APK Install</span>
+                </Link>
+              ) : (
+                <Link 
+                  href={(project as MobileProject).playStore || "#"} 
+                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink size={18} />
+                  <span>Play Store</span>
+                </Link>
+              )
+            ) : (
+              <Link 
+                href={(project as WebProject).liveUrl} 
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink size={18} />
+                <span>Live Demo</span>
+              </Link>
+            )}
           </div>
           <Link
             href={`/projects/${project.id}`}
@@ -290,25 +238,4 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
     </div>
   )
-}
-
-// Helper function to get tag colors
-function getTagColor(tag: string, opacity = 1) {
-  
-  return {
-      "Front-end": `rgba(79, 70, 229, ${opacity})`,
-      "React Native": `rgba(20, 184, 166, ${opacity})`,
-      "React": `rgba(20, 184, 166, ${opacity})`,
-      "Tailwind CSS": `rgba(6, 182, 212, ${opacity})`,
-      "TypeScript": `rgba(59, 130, 246, ${opacity})`,
-      "D3.js": `rgba(249, 115, 22, ${opacity})`,
-      "Power BI": `rgba(234, 179, 8, ${opacity})`,
-      "Python": `rgba(59, 130, 246, ${opacity})`,
-      "Next.js": `rgba(0, 0, 0, ${opacity})`,
-      "Three.js": `rgba(239, 68, 68, ${opacity})`,
-      "SASS CSS": `rgba(232,116,156, ${opacity})`,
-      "CRUD": `rgba(150, 114, 128, ${opacity})`,        
-      "Supabase": `rgba(16, 185, 129, ${opacity})`, 
-      "Full-stack": `rgba(99, 102, 241, ${opacity})`, 
-  }[tag] || `rgba(107, 114, 128, ${opacity})`
 }
