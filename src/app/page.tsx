@@ -35,7 +35,7 @@ export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const lenisRef = useRef<any>(null);
   const [activeTab, setActiveTab] = useState<"education" | "experience">("education");
-
+  const [isHovered, setIsHovered] = useState(false);
   useEffect(() => {
     let raf: (time: number) => void;
 
@@ -196,11 +196,21 @@ export default function Home() {
           <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen">
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-8 ml-0 md:ml-20">
-                <div className="w-48 h-48 rounded-full bg-zinc-800 overflow-hidden flex-shrink-0">
-                  <Image src="/profile.png" alt="" width={500} height={500} className="w-full h-full" />
+                <div
+                  className="w-48 h-48 rounded-full bg-zinc-800 overflow-hidden flex-shrink-0"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                  <Image
+                    src={isHovered ? "/profile-2.png" : "/profile.png"} // Change this to your pixel sunglasses image path
+                    alt="Profile"
+                    width={500}
+                    height={500}
+                      className="w-full h-full object-cover" // Added object-cover for better image fitting
+                />
                 </div>
                 <div className="md:mt-4 cursor-default">
-                  <h1 className="text-4xl font-bold mb-1 hover:text-blue-500 transition text-center sm:text-left">
+                  <h1 className="text-4xl font-bold mb-1 transition text-center sm:text-left">
                     Dominikus Sebastian Ramli
                   </h1>
                   <h2 className="text-x sm:text-xl text-gray-400 mb-4 text-center sm:text-left">

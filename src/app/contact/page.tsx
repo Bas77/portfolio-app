@@ -184,7 +184,7 @@ const PublicMessageForm = ({ messageCount }: { messageCount: number }) => {
             INSULT: {},
             THREAT: {},
           },
-          languages: ['en'], // Specify language (adjust if multilingual needed)
+          languages: ['en', 'id'], // Specify language (adjust if multilingual needed)
         }),
       });
 
@@ -452,7 +452,7 @@ export default function ContactPage() {
       <div className="min-h-screen text-slate-100 font-sans">
         <main className="container mx-auto px-4 py-12 sm:py-16" id="contact">
           <header className="text-center mb-12 sm:mb-16">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">Get In Touch</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">Message Me</h1>
             <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
               Send me a private message or leave a public message on the board.
             </p>
