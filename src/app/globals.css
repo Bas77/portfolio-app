@@ -158,3 +158,8 @@ html.lenis body {
 a.cursor-none {
   cursor: help !important;
 }
+
+#gacha-games, #gacha-games canvas {
+  z-index: 20 !important;
+  pointer-events: auto !important;
+}

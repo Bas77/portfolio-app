@@ -24,7 +24,9 @@ const TabButton = ({ children, isActive, onClick }: TabButtonProps) => {
       }`}
     >
       {children}
-      {isActive && <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-500"></span>}
+      {isActive && (
+        <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-500"></span>
+      )}
     </button>
   );
 };
@@ -34,7 +36,9 @@ export default function Home() {
   const animationFrameRef = useRef<number | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const lenisRef = useRef<any>(null);
-  const [activeTab, setActiveTab] = useState<"education" | "experience">("education");
+  const [activeTab, setActiveTab] = useState<"education" | "experience">(
+    "education"
+  );
   const [isHovered, setIsHovered] = useState(false);
   useEffect(() => {
     let raf: (time: number) => void;
@@ -45,7 +49,10 @@ export default function Home() {
       const wrapper = document.getElementById("lenis-wrapper");
       const content = document.getElementById("lenis-content");
 
-      if (!(wrapper instanceof HTMLElement) || !(content instanceof HTMLElement)) {
+      if (
+        !(wrapper instanceof HTMLElement) ||
+        !(content instanceof HTMLElement)
+      ) {
         console.warn("Lenis wrapper or content not found.");
         return;
       }
@@ -88,7 +95,12 @@ export default function Home() {
           duration: 1,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           onStart: () => {
-            console.log("Scrolling to", currentIndex, ":", sectionHeight * currentIndex);
+            console.log(
+              "Scrolling to",
+              currentIndex,
+              ":",
+              sectionHeight * currentIndex
+            );
           },
         });
 
@@ -124,7 +136,12 @@ export default function Home() {
       };
 
       const handleTouchEnd = (e: TouchEvent) => {
-        if (!isLenisEnabled || touchStartY === null || e.changedTouches.length === 0) return;
+        if (
+          !isLenisEnabled ||
+          touchStartY === null ||
+          e.changedTouches.length === 0
+        )
+          return;
 
         const touchEndY = e.changedTouches[0].clientY;
         const deltaY = touchStartY - touchEndY;
@@ -144,7 +161,9 @@ export default function Home() {
       window.addEventListener("resize", updateSectionHeight);
       window.addEventListener("wheel", handleWheel);
       window.addEventListener("keydown", handleKeyDown);
-      content.addEventListener("touchstart", handleTouchStart, { passive: true });
+      content.addEventListener("touchstart", handleTouchStart, {
+        passive: true,
+      });
       content.addEventListener("touchend", handleTouchEnd, { passive: true });
 
       return () => {
@@ -180,34 +199,58 @@ export default function Home() {
   }, [isLenisEnabled]);
 
   return (
-    <div id="lenis-wrapper" className="h-screen w-screen overflow-y-auto overflow-x-hidden">
-      <div id="lenis-content" className="will-change-transform overflow-x-hidden">
+    <div
+      id="lenis-wrapper"
+      className="h-screen w-screen overflow-y-auto overflow-x-hidden"
+    >
+      <div
+        id="lenis-content"
+        className="will-change-transform overflow-x-hidden"
+      >
         <div className="snap-container caret-transparent">
           <Head>
-            <meta name="description" content="Portfolio of Dominikus Sebastian Ramli, a developer skilled in Next.js, React, and Tailwind CSS." />
-            <meta name="keywords" content="Dominikus Sebastian Ramli, software developer, Next.js, React, portfolio" />
-            <meta property="og:title" content="Dominikus Sebastian Ramli Portfolio" />
-            <meta property="og:description" content="Explore my projects and skills." />
+            <meta
+              name="description"
+              content="Portfolio of Dominikus Sebastian Ramli, a developer skilled in Next.js, React, and Tailwind CSS."
+            />
+            <meta
+              name="keywords"
+              content="Dominikus Sebastian Ramli, software developer, Next.js, React, portfolio"
+            />
+            <meta
+              property="og:title"
+              content="Dominikus Sebastian Ramli Portfolio"
+            />
+            <meta
+              property="og:description"
+              content="Explore my projects and skills."
+            />
             <meta property="og:image" content="/profile.jpg" />
-            <meta name="google-site-verification" content="t0LoOobknWLz1n7QEs87jDvrwb36v_Y6kfBAoh7DLGY" />
+            <meta
+              name="google-site-verification"
+              content="t0LoOobknWLz1n7QEs87jDvrwb36v_Y6kfBAoh7DLGY"
+            />
           </Head>
 
           {/* Hero Section */}
-          <section id="hero" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen">
+          <section
+            id="hero"
+            className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen flex items-center justify-center"
+          >
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-8 ml-0 md:ml-20">
                 <div
                   className="w-48 h-48 rounded-full bg-zinc-800 overflow-hidden flex-shrink-0"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
                 >
                   <Image
-                    src={isHovered ? "/profile-2.png" : "/profile.png"} // Change this to your pixel sunglasses image path
+                    src={isHovered ? "/profile-2.png" : "/profile.png"}
                     alt="Profile"
                     width={500}
                     height={500}
-                      className="w-full h-full object-cover" // Added object-cover for better image fitting
-                />
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="md:mt-4 cursor-default">
                   <h1 className="text-4xl font-bold mb-1 transition text-center sm:text-left">
@@ -217,8 +260,9 @@ export default function Home() {
                     Aspiring Software Developer & Data Analyst
                   </h2>
                   <p className="text-gray-300 max-w-lg mb-6 text-center sm:text-left">
-                    Undergraduate Computer Science student passionate about learning, problem-solving, and web development.
-                    Specializing in modern web technologies and frameworks.
+                    Undergraduate Computer Science student passionate about
+                    learning, problem-solving, and web development. Specializing
+                    in modern web technologies and frameworks.
                   </p>
                   <div className="flex gap-6 justify-center sm:justify-start transition-colors">
                     <Link
@@ -227,7 +271,10 @@ export default function Home() {
                       className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                     >
                       <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-spin pointer-events-none transition-opacity" />
-                      <Github size={24} className="text-gray-400 group-hover:text-white transition-colors" />
+                      <Github
+                        size={24}
+                        className="text-gray-400 group-hover:text-white transition-colors"
+                      />
                     </Link>
                     <Link
                       href="https://www.linkedin.com/in/dominikus-sebastian-ramli-95a3952b8/"
@@ -235,7 +282,10 @@ export default function Home() {
                       className="group relative z-20 bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition-colors"
                     >
                       <div className="absolute inset-0 rounded-full border-2 border-white opacity-0 group-hover:opacity-25 group-hover:animate-pulse pointer-events-none transition" />
-                      <Linkedin size={24} className="text-gray-400 group-hover:text-white transition-colors" />
+                      <Linkedin
+                        size={24}
+                        className="text-gray-400 group-hover:text-white transition-colors"
+                      />
                     </Link>
                     <Link
                       href="https://wa.me/6282110855768?text=Hey%2C%20I%27ve%20checked%20out%20your%20website%21"
@@ -250,8 +300,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <Link href="#technologies" className="text-gray-400 hover:text-white">
+              <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce pointer-events-none">
+                <Link href="" className="text-gray-400 pointer-none  ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -271,7 +321,10 @@ export default function Home() {
           </section>
 
           {/* Experience Education Section */}
-          <section id="experience-education" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen flex items-center">
+          <section
+            id="experience-education"
+            className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen flex items-center"
+          >
             <div className="max-w-5xl mx-auto">
               <div className="flex space-x-8 mb-6 overflow-x-auto pb-2">
                 <TabButton
@@ -292,13 +345,20 @@ export default function Home() {
                   <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
                     <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
                       <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white">Bina Nusantara University</h3>
-                        <span className="text-blue-400 font-medium text-sm md:text-base">2022 - Present</span>
+                        <h3 className="text-lg md:text-xl font-bold text-white">
+                          Bina Nusantara University
+                        </h3>
+                        <span className="text-blue-400 font-medium text-sm md:text-base">
+                          2022 - Present
+                        </span>
                       </div>
-                      <p className="text-gray-400 text-sm md:text-base mb-2">Bachelor of Computer Science</p>
+                      <p className="text-gray-400 text-sm md:text-base mb-2">
+                        Bachelor of Computer Science
+                      </p>
                       <p className="text-gray-300 text-sm md:text-base">
-                        Focusing on software engineering and data science with coursework in algorithms, data
-                        structures, database systems, and web development.
+                        Focusing on software engineering and data science with
+                        coursework in algorithms, data structures, database
+                        systems, and web development.
                       </p>
                       <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -314,12 +374,19 @@ export default function Home() {
                     </div>
                     <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
                       <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white">Sekolah Dian Harapan</h3>
-                        <span className="text-blue-400 font-medium text-sm md:text-base">2019 - 2022</span>
+                        <h3 className="text-lg md:text-xl font-bold text-white">
+                          Sekolah Dian Harapan
+                        </h3>
+                        <span className="text-blue-400 font-medium text-sm md:text-base">
+                          2019 - 2022
+                        </span>
                       </div>
-                      <p className="text-gray-400 text-sm md:text-base mb-2">High School Diploma, Science Track (IPA)</p>
+                      <p className="text-gray-400 text-sm md:text-base mb-2">
+                        High School Diploma, Science Track (IPA)
+                      </p>
                       <p className="text-gray-300 text-sm md:text-base">
-                        Gained foundational skills in digital tools including 3D modeling, Adobe Photoshop, and Microsoft Excel.
+                        Gained foundational skills in digital tools including 3D
+                        modeling, Adobe Photoshop, and Microsoft Excel.
                       </p>
                       <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -339,12 +406,19 @@ export default function Home() {
                   <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
                     <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
                       <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white">StudyFirst</h3>
-                        <span className="text-blue-400 font-medium text-sm md:text-base">June 2025 - September 2025</span>
+                        <h3 className="text-lg md:text-xl font-bold text-white">
+                          StudyFirst
+                        </h3>
+                        <span className="text-blue-400 font-medium text-sm md:text-base">
+                          June 2025 - September 2025
+                        </span>
                       </div>
-                      <p className="text-gray-400 text-sm md:text-base mb-2">Web Developer Intern</p>
+                      <p className="text-gray-400 text-sm md:text-base mb-2">
+                        Web Developer Intern
+                      </p>
                       <p className="text-gray-300 text-sm md:text-base">
-                        Developed web pages using Elementor WordPress. Implemented and maintained a SEO friendly blog system.
+                        Developed web pages using Elementor WordPress.
+                        Implemented and maintained a SEO friendly blog system.
                       </p>
                       <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -360,12 +434,20 @@ export default function Home() {
                     </div>
                     <div className="bg-[#121212] rounded-xl p-4 md:p-6 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
                       <div className="flex flex-col sm:flex-row justify-between mb-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white">BINUS Chess Club</h3>
-                        <span className="text-blue-400 font-medium text-sm md:text-base">December 2024 - Present</span>
+                        <h3 className="text-lg md:text-xl font-bold text-white">
+                          BINUS Chess Club
+                        </h3>
+                        <span className="text-blue-400 font-medium text-sm md:text-base">
+                          December 2024 - Present
+                        </span>
                       </div>
-                      <p className="text-gray-400 text-sm md:text-base mb-2">Deputy Head of IT</p>
+                      <p className="text-gray-400 text-sm md:text-base mb-2">
+                        Deputy Head of IT
+                      </p>
                       <p className="text-gray-300 text-sm md:text-base">
-                        Maintained the club&apos;s digital presence by developing the website and managing BINUS Chess Club&apos;s LinkedIn.
+                        Maintained the club&apos;s digital presence by
+                        developing the website and managing BINUS Chess
+                        Club&apos;s LinkedIn.
                       </p>
                       <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -386,7 +468,10 @@ export default function Home() {
           </section>
 
           {/* Technologies Section */}
-          <section id="technologies" className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen">
+          <section
+            id="technologies"
+            className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen flex items-center"
+          >
             <div className="max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold mb-8 relative inline-block">
                 Technologies
@@ -444,6 +529,29 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          {/* ===== NEW SECTION STARTS HERE ===== */}
+          <section
+            id="about-me"
+            className="snap-section relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 min-h-screen flex flex-col items-center justify-center text-center"
+          >
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-4xl font-bold mb-4">
+                About me :3
+              </h2>
+              <p className="text-gray-400 mb-8 max-w-2xl">
+                Take a glimpse into my personal life, like my hobbies!
+              </p>
+              <Link
+                href="/about"
+                className="bg-blue-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors duration-300 transform hover:scale-105"
+              >
+                More About Me
+              </Link>
+            </div>
+          </section>
+          {/* ===== NEW SECTION ENDS HERE ===== */}
+
         </div>
       </div>
     </div>

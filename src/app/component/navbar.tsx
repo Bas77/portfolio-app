@@ -7,6 +7,12 @@ export default function Navbar() {
         <Link href="/" className="text-white text-sm py-1.5 px-3 rounded-full hover:bg-zinc-800 transition-colors">
           Home
         </Link>
+        {/* <Link
+          href="/about"
+          className="text-white text-sm py-1.5 px-3 rounded-full hover:bg-zinc-800 transition-colors"
+        >
+          About
+        </Link> */}
         <Link
           href="/projects"
           className="text-white text-sm py-1.5 px-3 rounded-full hover:bg-zinc-800 transition-colors"
@@ -19,6 +25,7 @@ export default function Navbar() {
         >
           Contact
         </Link>
+
       </div>
     </nav>
   )

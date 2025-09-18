@@ -28,7 +28,7 @@ export default function CursorSpotlight() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300 z-100"
       style={{ opacity }}
       aria-hidden="true"
     >
